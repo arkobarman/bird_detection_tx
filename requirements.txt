@@ -1,0 +1,12 @@
+# Core dependencies
+numpy
+pandas
+opencv-python
+Pillow
+
+# Deep learning
+torch
+torchvision
+
+# Visualization
+matplotlib
