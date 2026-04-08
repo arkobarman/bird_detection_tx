@@ -112,7 +112,7 @@ echo ""
 
 # Merge all annotations into one combined file
 echo "Merging annotations..."
-MERGE_SCRIPT="${SCRIPT_DIR}/merge_annotations.py"
+MERGE_SCRIPT="${REPO_ROOT}/utils/merge_annotations.py"
 COMBINED_ANNOTATIONS="${OUTPUT_BASE}/all_annotations.json"
 
 python3 "${MERGE_SCRIPT}" \
