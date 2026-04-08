@@ -11,13 +11,15 @@ Key features:
 
 Usage:
     # Tile a single orthomosaic with 512x512 tiles
-    python tile_orthomosaics_v2.py \\
+    cd scripts/tiling/
+    python tile_orthomosaics_nonoverlapping.py \\
         -i /path/to/OM_001_20250510_10k.jpg \\
         -a /path/to/OM_001_annotations.json \\
         -o /path/to/output/
 
     # Use 500x500 tiles (no waste on 10k images)
-    python tile_orthomosaics_v2.py \\
+    cd scripts/tiling/
+    python tile_orthomosaics_nonoverlapping.py \\
         -i /path/to/OM_001.jpg \\
         -a /path/to/OM_001_annotations.json \\
         -o /path/to/output/ \\
