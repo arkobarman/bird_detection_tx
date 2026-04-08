@@ -1,0 +1,108 @@
+======================================================================
+DATASET SPLIT REPORT
+======================================================================
+
+CONFIGURATION
+----------------------------------------
+Random seed: 42
+Iterations: 5000
+Split ratios: 80% / 10% / 10%
+Final score: 0.5206
+
+SCORE BREAKDOWN
+----------------------------------------
+Distribution score: 0.1184
+  - Train L1 distance: 0.0053
+  - Val L1 distance: 0.0543
+  - Test L1 distance: 0.0587
+Missing species penalty: 0.3996
+Imbalance penalty: 0.0026
+
+SPLIT SIZES
+----------------------------------------
+Split           Tiles        %     Annotations        %
+-------------------------------------------------------
+Train            7040    80.0%           13978    80.0%
+Val               880    10.0%            1793    10.3%
+Test              880    10.0%            1708     9.8%
+-------------------------------------------------------
+Total            8800   100.0%           17479   100.0%
+
+PER-SPECIES DISTRIBUTION
+------------------------------------------------------------------------------------------
+Species        Global    Train      Val     Test   Train%     Val%    Test%
+------------------------------------------------------------------------------------------
+ROTEA            9100     7279      909      912    80.0%    10.0%    10.0%
+SATEA            2751     2203      298      250    80.1%    10.8%     9.1%
+BRPEC            2490     2008      257      225    80.6%    10.3%     9.0%
+LAGUA            1433     1146      149      138    80.0%    10.4%     9.6%
+BRPEA             819      657       74       88    80.2%     9.0%    10.7%
+TRHEA             172      142       12       18    82.6%     7.0%    10.5%
+GREGC             107       79       19        9    73.8%    17.8%     8.4%
+GREGA             106       85       11       10    80.2%    10.4%     9.4%
+LWBBA              69       53        5       11    76.8%     7.2%    15.9%
+GBHEC              60       47        9        4    78.3%    15.0%     6.7%
+WHIBA              45       35        3        7    77.8%     6.7%    15.6%
+MTRNS              44       32        5        7    72.7%    11.4%    15.9%
+ROTEF              44       33        5        6    75.0%    11.4%    13.6%
+RUTUA              42       33        6        3    78.6%    14.3%     7.1%
+ROSPA              32       28        2        2    87.5%     6.2%     6.2%
+OTHRA              27       23        3        1    85.2%    11.1%     3.7%
+GBHEA              25       22        2        1    88.0%     8.0%     4.0%
+DCCOA              20       11        5        4    55.0%    25.0%    20.0%
+UNSURE             19        8        8        3    42.1%    42.1%    15.8%
+BRPEF              15       13        0        2    86.7%     0.0%    13.3%
+LAGUF              11        8        1        2    72.7%     9.1%    18.2%
+SATEF              11        9        1        1    81.8%     9.1%     9.1%
+SNEGA              11        7        3        1    63.6%    27.3%     9.1%
+AMAVA               5        4        1        0    80.0%    20.0%     0.0%
+CATEA               5        2        3        0    40.0%    60.0%     0.0%
+DCCOF               4        1        2        1    25.0%    50.0%    25.0%
+GREGF               2        2        0        0   100.0%     0.0%     0.0%
+ROSPC               2        1        0        1    50.0%     0.0%    50.0%
+WHIBF               2        2        0        0   100.0%     0.0%     0.0%
+BNSTA               1        1        0        0   100.0%     0.0%     0.0%
+NECOA               1        0        0        1     0.0%     0.0%   100.0%
+REEGA               1        1        0        0   100.0%     0.0%     0.0%
+REEGF               1        1        0        0   100.0%     0.0%     0.0%
+REEGWMA             1        1        0        0   100.0%     0.0%     0.0%
+RUTUF               1        1        0        0   100.0%     0.0%     0.0%
+
+MISSING SPECIES
+----------------------------------------
+Missing in val (10):
+  - BNSTA (global count: 1)
+  - BRPEF (global count: 15)
+  - GREGF (global count: 2)
+  - NECOA (global count: 1)
+  - REEGA (global count: 1)
+  - REEGF (global count: 1)
+  - REEGWMA (global count: 1)
+  - ROSPC (global count: 2)
+  - RUTUF (global count: 1)
+  - WHIBF (global count: 2)
+Missing in test (9):
+  - AMAVA (global count: 5)
+  - BNSTA (global count: 1)
+  - CATEA (global count: 5)
+  - GREGF (global count: 2)
+  - REEGA (global count: 1)
+  - REEGF (global count: 1)
+  - REEGWMA (global count: 1)
+  - RUTUF (global count: 1)
+  - WHIBF (global count: 2)
+
+TOP 10 MOST IMBALANCED SPECIES
+----------------------------------------
+  UNSURE: 8/8/3 (global: 19, deviation: 75.8)
+  DCCOA: 11/5/4 (global: 20, deviation: 50.0)
+  SNEGA: 7/3/1 (global: 11, deviation: 34.5)
+  BRPEF: 13/0/2 (global: 15, deviation: 20.0)
+  LAGUF: 8/1/2 (global: 11, deviation: 16.4)
+  GBHEA: 22/2/1 (global: 25, deviation: 16.0)
+  GREGC: 79/19/9 (global: 107, deviation: 15.5)
+  ROSPA: 28/2/2 (global: 32, deviation: 15.0)
+  MTRNS: 32/5/7 (global: 44, deviation: 14.5)
+  OTHRA: 23/3/1 (global: 27, deviation: 12.6)
+
+======================================================================
