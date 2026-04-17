@@ -1,11 +1,23 @@
 """
-Generate species distribution bar chart for the Chester Island 2025 dataset.
+Generate species distribution bar chart for the ORIGINAL 10k orthomosaic dataset.
+
+This script reads pre-computed species counts from a CSV file (species_totals.csv)
+generated from the 10,000x10,000 pixel orthomosaic annotations. Each bird is counted
+exactly once (no duplicates from tiling).
+
+Input:
+    data/BirdDataset_2025_10k/metadata/species_totals.csv
+    - CSV with columns: Species, Count, Name
+    - Pre-aggregated counts from orthomosaic-level annotations
+
+Output:
+    figures/data_exploration/original_dataset_distribution.png
 
 Usage:
     python scripts/visualization/plot_species_distribution.py
 
-Output:
-    figures/data_exploration/original_dataset_distribution.png
+See also:
+    plot_tiled_distribution.py - For tiled (500x500) dataset distribution
 """
 
 import pandas as pd
