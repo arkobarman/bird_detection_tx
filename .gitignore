@@ -18,6 +18,9 @@ build/
 data/*
 !data/README.md
 !data/.gitkeep
+!data/*/
+data/*/*
+!data/*/README.md
 
 # IDE
 .vscode/
