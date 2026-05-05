@@ -1,0 +1,86 @@
+======================================================================
+DATASET SPLIT REPORT
+======================================================================
+
+CONFIGURATION
+----------------------------------------
+Random seed: 42
+Iterations: 5000
+Split ratios: 80% / 10% / 10%
+Final score: 0.2734
+
+SCORE BREAKDOWN
+----------------------------------------
+Distribution score: 0.1205
+  - Train L1 distance: 0.0073
+  - Val L1 distance: 0.0668
+  - Test L1 distance: 0.0464
+Missing species penalty: 0.1411
+Imbalance penalty: 0.0118
+
+SPLIT SIZES
+----------------------------------------
+Split           Tiles        %     Annotations        %
+-------------------------------------------------------
+Train            7680    80.0%           15940    81.2%
+Val               960    10.0%            1954    10.0%
+Test              960    10.0%            1741     8.9%
+-------------------------------------------------------
+Total            9600   100.0%           19635   100.0%
+
+PER-SPECIES DISTRIBUTION
+------------------------------------------------------------------------------------------
+Species        Global    Train      Val     Test   Train%     Val%    Test%
+------------------------------------------------------------------------------------------
+ROTEA           10274     8308     1079      887    80.9%    10.5%     8.6%
+SATEA            3552     2912      332      308    82.0%     9.3%     8.7%
+BRPEC            2503     2021      248      234    80.7%     9.9%     9.3%
+LAGUA            1493     1227      133      133    82.2%     8.9%     8.9%
+BRPEA             852      691       72       89    81.1%     8.5%    10.4%
+BLSKA             189      162       12       15    85.7%     6.3%     7.9%
+TRHEA             172      138       16       18    80.2%     9.3%    10.5%
+GREGA             108       88       13        7    81.5%    12.0%     6.5%
+GREGC             107       86       10       11    80.4%     9.3%    10.3%
+LWBBA              69       55        9        5    79.7%    13.0%     7.2%
+RUTUA              69       58        5        6    84.1%     7.2%     8.7%
+GBHEC              60       48        6        6    80.0%    10.0%    10.0%
+WHIBA              46       40        4        2    87.0%     8.7%     4.3%
+ROSPA              32       23        4        5    71.9%    12.5%    15.6%
+OTHRA              28       23        2        3    82.1%     7.1%    10.7%
+DCCOA              25       21        1        3    84.0%     4.0%    12.0%
+GBHEA              25       20        4        1    80.0%    16.0%     4.0%
+SNEGA              11        8        1        2    72.7%     9.1%    18.2%
+AMAVA               5        3        1        1    60.0%    20.0%    20.0%
+CATEA               5        2        0        3    40.0%     0.0%    60.0%
+UNSURE              5        4        1        0    80.0%    20.0%     0.0%
+ROSPC               2        1        0        1    50.0%     0.0%    50.0%
+BLSTA               1        0        1        0     0.0%   100.0%     0.0%
+REEGA               1        0        0        1     0.0%     0.0%   100.0%
+REEGWM              1        1        0        0   100.0%     0.0%     0.0%
+
+MISSING SPECIES
+----------------------------------------
+Missing in val (4):
+  - CATEA (global count: 5)
+  - REEGA (global count: 1)
+  - REEGWM (global count: 1)
+  - ROSPC (global count: 2)
+Missing in test (3):
+  - BLSTA (global count: 1)
+  - REEGWM (global count: 1)
+  - UNSURE (global count: 5)
+
+TOP 10 MOST IMBALANCED SPECIES
+----------------------------------------
+  SNEGA: 8/1/2 (global: 11, deviation: 16.4)
+  ROSPA: 23/4/5 (global: 32, deviation: 16.2)
+  WHIBA: 40/4/2 (global: 46, deviation: 13.9)
+  DCCOA: 21/1/3 (global: 25, deviation: 12.0)
+  GBHEA: 20/4/1 (global: 25, deviation: 12.0)
+  BLSKA: 162/12/15 (global: 189, deviation: 11.4)
+  RUTUA: 58/5/6 (global: 69, deviation: 8.1)
+  GREGA: 88/13/7 (global: 108, deviation: 7.0)
+  LWBBA: 55/9/5 (global: 69, deviation: 6.1)
+  OTHRA: 23/2/3 (global: 28, deviation: 5.7)
+
+======================================================================
