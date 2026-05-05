@@ -1,0 +1,73 @@
+======================================================================
+SPLIT REPORT: swin-tiny-classifier1
+======================================================================
+
+## Split Method: stratified per remapped class (crop-level)
+
+## Label Mapping (original -> remapped)
+  BLSKA <- ['BLSKA']
+  BRPEA <- ['BRPEA']
+  BRPEC <- ['BRPEC']
+  GBHEA <- ['GBHEA']
+  GBHEC <- ['GBHEC']
+  LAGUA <- ['LAGUA']
+  LARGE_WHITE_BIRDS <- ['GREGA', 'GREGC', 'LWBBA', 'REEGA', 'REEGWM', 'SNEGA', 'WHIBA']
+  OTHERS <- ['AMAVA', 'BLSTA', 'CATEA', 'DCCOA', 'OTHRA', 'ROSPA', 'ROSPC', 'RUTUA', 'TRHEA', 'UNSURE']
+  ROTEA <- ['ROTEA']
+  SATEA <- ['SATEA']
+
+## Overall Class Distribution (after remapping)
+  ROTEA: 10274
+  SATEA: 3552
+  BRPEC: 2503
+  LAGUA: 1493
+  BRPEA: 852
+  OTHERS: 344
+  LARGE_WHITE_BIRDS: 343
+  BLSKA: 189
+  GBHEC: 60
+  GBHEA: 25
+  TOTAL: 19635
+  NUM CLASSES: 10
+
+## Per-Split Class Distribution
+
+### TRAIN (15705 samples)
+    ROTEA: 8219 (52.3%)
+    SATEA: 2841 (18.1%)
+    BRPEC: 2002 (12.7%)
+    LAGUA: 1194 (7.6%)
+    BRPEA: 681 (4.3%)
+    OTHERS: 275 (1.8%)
+    LARGE_WHITE_BIRDS: 274 (1.7%)
+    BLSKA: 151 (1.0%)
+    GBHEC: 48 (0.3%)
+    GBHEA: 20 (0.1%)
+
+### VAL (1961 samples)
+    ROTEA: 1027 (52.4%)
+    SATEA: 355 (18.1%)
+    BRPEC: 250 (12.7%)
+    LAGUA: 149 (7.6%)
+    BRPEA: 85 (4.3%)
+    LARGE_WHITE_BIRDS: 34 (1.7%)
+    OTHERS: 34 (1.7%)
+    BLSKA: 19 (1.0%)
+    GBHEC: 6 (0.3%)
+    GBHEA: 2 (0.1%)
+
+### TEST (1969 samples)
+    ROTEA: 1028 (52.2%)
+    SATEA: 356 (18.1%)
+    BRPEC: 251 (12.7%)
+    LAGUA: 150 (7.6%)
+    BRPEA: 86 (4.4%)
+    LARGE_WHITE_BIRDS: 35 (1.8%)
+    OTHERS: 35 (1.8%)
+    BLSKA: 19 (1.0%)
+    GBHEC: 6 (0.3%)
+    GBHEA: 3 (0.2%)
+
+## Missing Classes Check
+  val: all 10 classes present
+  test: all 10 classes present
