@@ -1,42 +1,113 @@
 """
 Generate species distribution bar chart for the ORIGINAL 10k orthomosaic dataset.
 
-This script reads pre-computed species counts from a CSV file (species_totals.csv)
-generated from the 10,000x10,000 pixel orthomosaic annotations. Each bird is counted
-exactly once (no duplicates from tiling).
+Reads either a pre-computed species_totals.csv OR directly from all_annotations.json.
+Each bird is counted exactly once (no duplicates from tiling).
 
-Input:
-    data/BirdDataset_2025_10k/metadata/species_totals.csv
-    - CSV with columns: Species, Count, Name
-    - Pre-aggregated counts from orthomosaic-level annotations
+Input (one of):
+    --annotations-json  data/BirdDataset_2025_10k/annotations/all_annotations.json
+    --csv-path          data/BirdDataset_2025_10k/metadata/species_totals.csv
 
 Output:
-    figures/data_exploration/original_dataset_distribution.png
+    --output  figures/data_exploration/original_dataset_distribution.png
 
 Usage:
-    python scripts/visualization/plot_species_distribution.py
+    python scripts/visualization/plot_species_distribution.py \
+        --annotations-json data/BirdDataset_2025_10k/annotations/all_annotations.json \
+        --output figures/data_exploration/05042026/original_dataset_distribution.png
 
 See also:
     plot_tiled_distribution.py - For tiled (500x500) dataset distribution
 """
 
+import argparse
+import json
+from collections import Counter
+from pathlib import Path
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-from pathlib import Path
+
+
+SPECIES_NAMES = {
+    "ROTEA": "Royal Tern Adults",
+    "SATEA": "Sandwich Tern Adults",
+    "BRPEC": "Brown Pelican Chicks",
+    "LAGUA": "Laughing Gull Adults",
+    "BRPEA": "Brown Pelican Adults",
+    "BLSKA": "Black Skimmer Adults",
+    "TRHEA": "Tri-Colored Heron Adults",
+    "GREGC": "Great Egret Chicks",
+    "GREGA": "Great Egret Adults",
+    "LWBBA": "Large White Bird Above Canopy",
+    "MTRNS": "Mixed Terns (Nesting/Sitting)",
+    "GBHEC": "Great Blue Heron Chicks",
+    "RUTUA": "Ruddy Turnstone Adults",
+    "WHIBA": "White Ibis Adults",
+    "ROTEF": "Royal Tern Flying",
+    "ROSPA": "Roseate Spoonbill Adults",
+    "OTHRA": "Other (Not nesting species)",
+    "UNSURE": "Unsure/Unidentified",
+    "GBHEA": "Great Blue Heron Adults",
+    "DCCOA": "Double-Crested Cormorant Adults",
+    "SATEF": "Sandwich Tern Flying",
+    "LAGUF": "Laughing Gull Flying",
+    "BRPEF": "Brown Pelican Flying",
+    "SNEGA": "Snowy Egret Adults",
+    "CATEA": "Caspian Tern Adults",
+    "AMAVA": "American Avocet Adults",
+    "ROSPC": "Roseate Spoonbill Chicks",
+    "WHIBF": "White Ibis Flying",
+    "RUTUF": "Ruddy Turnstone Flying",
+    "REEGWM": "Reddish Egret White Morph",
+    "REEGA": "Reddish Egret Adults",
+    "BLSTA": "Black-necked Stilt Adults",
+    "NECOA": "Neotropic Cormorant Adults",
+    "GREGF": "Great Egret Flying",
+    "DCCOF": "Double-Crested Cormorant Flying",
+    "BNSTA": "Black-necked Stilt Adults",
+}
+
+
+def load_from_annotations_json(json_path: Path) -> pd.DataFrame:
+    with open(json_path) as f:
+        data = json.load(f)
+    counts: Counter = Counter()
+    for img in data["images"]:
+        for det in img.get("detections", []):
+            counts[det.get("tcws_species", "UNKN")] += 1
+    rows = [
+        {"Species": sp, "Count": cnt, "Name": SPECIES_NAMES.get(sp, sp)}
+        for sp, cnt in counts.most_common()
+    ]
+    return pd.DataFrame(rows)
 
 
 def main():
-    # Paths
     repo_root = Path(__file__).parent.parent.parent
-    csv_path = repo_root / "data/BirdDataset_2025_10k/metadata/species_totals.csv"
-    output_dir = repo_root / "figures/data_exploration"
-    output_dir.mkdir(parents=True, exist_ok=True)
-    output_path = output_dir / "original_dataset_distribution.png"
+
+    parser = argparse.ArgumentParser(description="Generate orthomosaic species distribution chart")
+    parser.add_argument("--annotations-json", type=str,
+                        default=str(repo_root / "data/BirdDataset_2025_10k/annotations/all_annotations.json"),
+                        help="Path to all_annotations.json from the orthomosaic dataset")
+    parser.add_argument("--csv-path", type=str, default=None,
+                        help="Path to species_totals.csv (overrides --annotations-json if provided)")
+    parser.add_argument("--output", type=str,
+                        default=str(repo_root / "figures/data_exploration/original_dataset_distribution.png"),
+                        help="Output PNG path")
+    args = parser.parse_args()
+
+    output_path = Path(args.output)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
 
     # Load data
-    df = pd.read_csv(csv_path)
-    print(f"[info] Loaded {len(df)} species from {csv_path}")
+    if args.csv_path:
+        df = pd.read_csv(args.csv_path)
+        print(f"[info] Loaded {len(df)} species from {args.csv_path}")
+    else:
+        df = load_from_annotations_json(Path(args.annotations_json))
+        print(f"[info] Loaded {len(df)} species from {args.annotations_json}")
     print(f"[info] Total annotations: {df['Count'].sum():,}")
 
     # Sort by count (already sorted but ensure)

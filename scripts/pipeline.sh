@@ -19,6 +19,7 @@
 #   1. prepare_bird_dataset.py  → data/BirdDataset_2025_10k_MMDDYYYY/
 #   2. run_tiling.sh            → data/BirdDataset_2025_nonoverlapping_tiles_<size>_MMDDYYYY/
 #   3. run_splitting.sh         → splits/detection_tile_splits_MMDDYYYY/
+#   4. visualization scripts    → figures/data_exploration/MMDDYYYY/
 
 set -e
 
@@ -67,6 +68,7 @@ DATE=$(date +%m%d%Y)
 DATASET_DIR="${OUTPUT_DIR}/BirdDataset_2025_10k_${DATE}"
 TILES_DIR="${OUTPUT_DIR}/BirdDataset_2025_nonoverlapping_tiles_${TILE_SIZE}_${DATE}"
 SPLIT_OUT="${SPLITS_DIR}/detection_tile_splits_${DATE}"
+FIGURES_OUT="${REPO_ROOT}/figures/data_exploration/${DATE}"
 
 # ── Print plan ────────────────────────────────────────────────────────────────
 echo "============================================================"
@@ -80,6 +82,7 @@ echo ""
 echo "Step 1 output  : ${DATASET_DIR}"
 echo "Step 2 output  : ${TILES_DIR}"
 echo "Step 3 output  : ${SPLIT_OUT}"
+echo "Step 4 output  : ${FIGURES_OUT}"
 echo "============================================================"
 echo ""
 
@@ -123,6 +126,28 @@ echo ""
 echo "[3/3] Done → ${SPLIT_OUT}"
 echo ""
 
+# ── Step 4: EDA visualizations ────────────────────────────────────────────────
+echo "[4/4] Generating EDA visualizations..."
+
+VIZ_DIR="${SCRIPT_DIR}/visualization"
+
+python3 "${VIZ_DIR}/plot_species_distribution.py" \
+    --annotations-json "${DATASET_DIR}/annotations/all_annotations.json" \
+    --output           "${FIGURES_OUT}/original_dataset_distribution.png"
+
+python3 "${VIZ_DIR}/plot_om_distributions.py" \
+    --annotations-dir "${DATASET_DIR}/annotations" \
+    --output-dir      "${FIGURES_OUT}/om_distributions"
+
+python3 "${VIZ_DIR}/plot_tiled_distribution.py" \
+    --json   "${TILES_DIR}/all_annotations.json" \
+    --output "${FIGURES_OUT}/tiled_dataset_distribution.png" \
+    --title  "Chester Island 2025 Tiled Dataset (${TILE_SIZE}px) — ${DATE}"
+
+echo ""
+echo "[4/4] Done → ${FIGURES_OUT}"
+echo ""
+
 # ── Summary ───────────────────────────────────────────────────────────────────
 echo "============================================================"
 echo "Pipeline complete"
@@ -130,4 +155,5 @@ echo "============================================================"
 echo "Dataset  : ${DATASET_DIR}"
 echo "Tiles    : ${TILES_DIR}"
 echo "Splits   : ${SPLIT_OUT}"
+echo "Figures  : ${FIGURES_OUT}"
 echo "============================================================"
