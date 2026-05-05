@@ -150,34 +150,36 @@ Per-image annotation files:
 
 ### Species Counts
 
-| Species Code | Count |
-|--------------|-------|
-| ROTEA | 8,392 |
-| SATEA | 3,043 |
-| BRPEC | 1,963 |
-| LAGUA | 1,234 |
-| BRPEA | 579 |
-| BLSKA | 147 |
-| TRHEA | 143 |
-| GREGC | 99 |
-| GREGA | 87 |
-| RUTUA | 63 |
-| LWBBA | 59 |
-| GBHEC | 47 |
-| WHIBA | 40 |
-| ROSPA | 25 |
-| OTHRA | 23 |
-| DCCOA | 18 |
-| GBHEA | 17 |
-| SNEGA | 5 |
-| UNSURE | 5 |
-| CATEA | 4 |
-| AMAVA | 4 |
-| ROSPC | 2 |
-| REEGWM | 1 |
-| BLSTA | 1 |
-| REEGA | 1 |
-| **Total** | **16,002** |
+Code suffix convention: **A** = adult, **C** = chick, **F** = flying, **N** = nesting.
+
+| Species Code | Common Name | Count |
+|--------------|-------------|-------|
+| ROTEA | Royal Tern (adult) | 8,392 |
+| SATEA | Sandwich Tern (adult) | 3,043 |
+| BRPEC | Brown Pelican (chick) | 1,963 |
+| LAGUA | Laughing Gull (adult) | 1,234 |
+| BRPEA | Brown Pelican (adult) | 579 |
+| BLSKA | Black Skimmer (adult) | 147 |
+| TRHEA | Tricolored Heron (adult) | 143 |
+| GREGC | Great Egret (chick) | 99 |
+| GREGA | Great Egret (adult) | 87 |
+| RUTUA | Ruddy Turnstone (adult) | 63 |
+| LWBBA | Large White Bird Above Canopy (adult) | 59 |
+| GBHEC | Great Blue Heron (chick) | 47 |
+| WHIBA | White Ibis (adult) | 40 |
+| ROSPA | Roseate Spoonbill (adult) | 25 |
+| OTHRA | Other / Non-nesting species (adult) | 23 |
+| DCCOA | Double-crested Cormorant (adult) | 18 |
+| GBHEA | Great Blue Heron (adult) | 17 |
+| SNEGA | Snowy Egret (adult) | 5 |
+| UNSURE | Unidentified | 5 |
+| CATEA | Cattle Egret (adult) | 4 |
+| AMAVA | American Avocet (adult) | 4 |
+| ROSPC | Roseate Spoonbill (chick) | 2 |
+| REEGWM | Reddish Egret (white morph) | 1 |
+| BLSTA | Black-necked Stilt (adult) | 1 |
+| REEGA | Reddish Egret (adult) | 1 |
+| **Total** | | **16,002** |
 
 ## Annotation Process
 
