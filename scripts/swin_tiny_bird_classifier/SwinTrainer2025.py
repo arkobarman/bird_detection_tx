@@ -1,20 +1,44 @@
 """
-Swin-Tiny trainer for the 2025 Chester Island seabird dataset.
+Swin-Tiny trainer for seabird classification.
 
-Supports 4 main + 2 sub-classifier experiment presets:
-  - exp1_11class:               11-class baseline (>=50 samples kept, rare -> OTHERS)
-  - exp2_10class_terns:         10-class with terns merged into TERNS
-  - exp3_hank_coarse:           8-class Hank coarse grouping
-  - exp4_fine_grained:          11-class fine-grained (split terns, split egret life stages)
-  - exp5_split_terns:           10-class: exp3 with ROTE/SATE split out and TRHEA separated
-  - exp6_drop_mtrns:            same as exp5 but MTRNS rows dropped from dataset entirely
-  - subclass_terns:             3-class sub-classifier under TERNS super-class
-  - subclass_large_white_birds: 3-class sub-classifier under LARGE_WHITE_BIRDS super-class
+Takes a label_mapping.json and a crops directory — no hardcoded experiment presets.
+The split CSVs (train.csv, val.csv, test.csv) are expected to live in the same
+directory as the label_mapping.json.
 
-Usage:
-    python -m scripts.swin_tiny_bird_classifier.SwinTrainer2025 --experiment exp1_11class
-    python -m scripts.swin_tiny_bird_classifier.SwinTrainer2025 --experiment exp2_10class_terns --epochs 50
-    python -m scripts.swin_tiny_bird_classifier.SwinTrainer2025 --experiment exp4_fine_grained
+Label mapping format
+--------------------
+A flat JSON object mapping raw species codes to training class labels:
+
+    {
+        "ROTEA": "ROTEA_ROTEF",
+        "ROTEF": "ROTEA_ROTEF",
+        "SATEA": "SATEA_SATEF",
+        "BRPEC": "BRPEC",
+        "AMAVA": "OTHERS",
+        ...
+    }
+
+- Keys are the raw species_name values in the annotation CSVs.
+- Values are the remapped_label used for training.
+- Multiple keys sharing the same value are merged into one class.
+- The set of unique values becomes the class list (sorted alphabetically).
+
+Split CSV format
+----------------
+Each CSV (train.csv, val.csv, test.csv) must contain at least:
+    crop_path       - path to the crop image, relative to --image-root/crops/
+    remapped_label  - training class label (must match values in label_mapping.json)
+
+Usage
+-----
+    python -m scripts.swin_tiny_bird_classifier.SwinTrainer2025 \\
+        --label-mapping splits/my_split/label_mapping.json \\
+        --image-root data/BirdDataset_2025_05052026_crops/crops
+
+    python -m scripts.swin_tiny_bird_classifier.SwinTrainer2025 \\
+        --label-mapping splits/my_split/label_mapping.json \\
+        --image-root data/BirdDataset_2025_05052026_crops/crops \\
+        --epochs 50 --lr 5e-5 --out-dir runs/my_run
 """
 
 import time
@@ -42,98 +66,6 @@ from .DataLoader import set_up_data_loaders
 
 
 # ============================================================================
-# EXPERIMENT PRESETS
-# ============================================================================
-
-DATASET_ROOT = Path("data")
-SPLITS_ROOT = DATASET_ROOT / "splits"
-IMAGE_ROOT = DATASET_ROOT / "crops"
-
-EXPERIMENT_PRESETS = {
-    "exp1_11class": {
-        "name": "exp1_11class",
-        "description": "11-class baseline: classes with >=50 samples, rare -> OTHERS",
-        "train_csv": SPLITS_ROOT / "exp1_11class" / "train.csv",
-        "val_csv": SPLITS_ROOT / "exp1_11class" / "val.csv",
-        "test_csv": SPLITS_ROOT / "exp1_11class" / "test.csv",
-        "image_root": IMAGE_ROOT,
-        "label_key": "remapped_label",
-        "num_classes": 11,
-    },
-    "exp2_10class_terns": {
-        "name": "exp2_10class_terns",
-        "description": "10-class: terns merged into TERNS, rare -> OTHERS",
-        "train_csv": SPLITS_ROOT / "exp2_10class_terns" / "train.csv",
-        "val_csv": SPLITS_ROOT / "exp2_10class_terns" / "val.csv",
-        "test_csv": SPLITS_ROOT / "exp2_10class_terns" / "test.csv",
-        "image_root": IMAGE_ROOT,
-        "label_key": "remapped_label",
-        "num_classes": 10,
-    },
-    "exp3_hank_coarse": {
-        "name": "exp3_hank_coarse",
-        "description": "8-class Hank coarse grouping",
-        "train_csv": SPLITS_ROOT / "exp3_hank_coarse" / "train.csv",
-        "val_csv": SPLITS_ROOT / "exp3_hank_coarse" / "val.csv",
-        "test_csv": SPLITS_ROOT / "exp3_hank_coarse" / "test.csv",
-        "image_root": IMAGE_ROOT,
-        "label_key": "remapped_label",
-        "num_classes": 8,
-    },
-    "exp4_fine_grained": {
-        "name": "exp4_fine_grained",
-        "description": "11-class fine-grained: split terns, split egret life stages",
-        "train_csv": SPLITS_ROOT / "exp4_fine_grained" / "train.csv",
-        "val_csv": SPLITS_ROOT / "exp4_fine_grained" / "val.csv",
-        "test_csv": SPLITS_ROOT / "exp4_fine_grained" / "test.csv",
-        "image_root": IMAGE_ROOT,
-        "label_key": "remapped_label",
-        "num_classes": 11,
-    },
-    "exp5_split_terns": {
-        "name": "exp5_split_terns",
-        "description": "10-class exp3 variant: ROTE/SATE split; TRHEA separated; LARGE_WHITE_BIRDS keeps WHIB",
-        "train_csv": SPLITS_ROOT / "exp5_split_terns" / "train.csv",
-        "val_csv": SPLITS_ROOT / "exp5_split_terns" / "val.csv",
-        "test_csv": SPLITS_ROOT / "exp5_split_terns" / "test.csv",
-        "image_root": IMAGE_ROOT,
-        "label_key": "remapped_label",
-        "num_classes": 10,
-    },
-    "exp6_drop_mtrns": {
-        "name": "exp6_drop_mtrns",
-        "description": "Same as exp5_split_terns but MTRNS rows dropped from dataset",
-        "train_csv": SPLITS_ROOT / "exp6_drop_mtrns" / "train.csv",
-        "val_csv": SPLITS_ROOT / "exp6_drop_mtrns" / "val.csv",
-        "test_csv": SPLITS_ROOT / "exp6_drop_mtrns" / "test.csv",
-        "image_root": IMAGE_ROOT,
-        "label_key": "remapped_label",
-        "num_classes": 10,
-    },
-    "subclass_terns": {
-        "name": "subclass_terns",
-        "description": "3-class sub-classifier for TERNS: ROTEA_ROTEF, SATEA_SATEF, CATEA_MTRNS",
-        "train_csv": SPLITS_ROOT / "subclass_terns" / "train.csv",
-        "val_csv": SPLITS_ROOT / "subclass_terns" / "val.csv",
-        "test_csv": SPLITS_ROOT / "subclass_terns" / "test.csv",
-        "image_root": IMAGE_ROOT,
-        "label_key": "remapped_label",
-        "num_classes": 3,
-    },
-    "subclass_large_white_birds": {
-        "name": "subclass_large_white_birds",
-        "description": "3-class sub-classifier for LARGE_WHITE_BIRDS: GREGA_GREGF, GREGC, LWBBA",
-        "train_csv": SPLITS_ROOT / "subclass_large_white_birds" / "train.csv",
-        "val_csv": SPLITS_ROOT / "subclass_large_white_birds" / "val.csv",
-        "test_csv": SPLITS_ROOT / "subclass_large_white_birds" / "test.csv",
-        "image_root": IMAGE_ROOT,
-        "label_key": "remapped_label",
-        "num_classes": 3,
-    },
-}
-
-
-# ============================================================================
 # DEFAULT HYPERPARAMETERS
 # ============================================================================
 
@@ -148,16 +80,47 @@ BATCH_EVAL = 128
 NUM_WORKERS = 16
 INPUT_SIZE = 224
 USE_SAMPLER = True
-SAMPLER_POWER = 0.5  # 1/sqrt(count) reweighting: softer correction for long-tailed classes
+SAMPLER_POWER = 0.5  # 1/sqrt(count): softer correction for long-tailed classes
 AMP = True
 
-# Hardware (edit when switching GPU instances)
 HARDWARE = "1x NVIDIA A10 (Lambda)"
 
-# Will be set in main()
-DEVICE = None
-OUT_DIR = None
+# Set in train()
 LOG_PATH = None
+
+
+# ============================================================================
+# SPLIT CONFIG
+# ============================================================================
+
+def load_split_config(label_mapping_path: Path) -> dict:
+    """Load label_mapping.json and resolve sibling train/val/test CSVs.
+
+    Returns a dict with keys:
+        classes    - sorted list of unique training class labels
+        train_csv  - Path to train.csv
+        val_csv    - Path to val.csv
+        test_csv   - Path to test.csv
+        split_name - name of the parent directory (used for run naming)
+    """
+    with open(label_mapping_path, encoding="utf-8") as f:
+        mapping = json.load(f)
+
+    classes = sorted(set(mapping.values()))
+    split_dir = label_mapping_path.parent
+
+    for csv_name in ("train.csv", "val.csv", "test.csv"):
+        p = split_dir / csv_name
+        if not p.exists():
+            raise FileNotFoundError(f"Expected split CSV not found: {p}")
+
+    return {
+        "classes": classes,
+        "train_csv": split_dir / "train.csv",
+        "val_csv": split_dir / "val.csv",
+        "test_csv": split_dir / "test.csv",
+        "split_name": split_dir.name,
+    }
 
 
 # ============================================================================
@@ -165,7 +128,6 @@ LOG_PATH = None
 # ============================================================================
 
 def log(message: str) -> None:
-    """Log message to stdout and optionally to file."""
     print(message)
     if LOG_PATH is not None:
         LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -178,7 +140,6 @@ def log(message: str) -> None:
 # ============================================================================
 
 def plot_curves(history, path):
-    """Plot training vs validation loss and accuracy."""
     ep = np.arange(1, len(history["train_loss"]) + 1)
     fig, (ax_loss, ax_acc) = plt.subplots(2, 1, figsize=(7.5, 6), sharex=True)
 
@@ -199,7 +160,6 @@ def plot_curves(history, path):
 
 
 def plot_two_cms(y1, p1, y2, p2, classes, path, titles=("Validation", "Test")):
-    """Plot two row-normalized confusion matrices side-by-side."""
     from sklearn.metrics import confusion_matrix
     labels = list(range(len(classes)))
 
@@ -248,14 +208,11 @@ def plot_two_cms(y1, p1, y2, p2, classes, path, titles=("Validation", "Test")):
 # ============================================================================
 
 def eval_collect(model, dl, num_classes, device, amp_enabled):
-    """Return (y_true_list, y_pred_list, y_proba_array)"""
     model.eval()
-    y_true, y_pred = [], []
-    probs = []
+    y_true, y_pred, probs = [], [], []
     with torch.no_grad():
         for xb, yb in dl:
-            xb = xb.to(device)
-            yb = yb.to(device)
+            xb, yb = xb.to(device), yb.to(device)
             with autocast(device_type="cuda", enabled=amp_enabled):
                 logits = model(xb)
                 p = torch.softmax(logits, dim=1)
@@ -267,7 +224,6 @@ def eval_collect(model, dl, num_classes, device, amp_enabled):
 
 
 def compute_map_ovr(y_true, probs, num_classes):
-    """One-vs-rest AP per class, macro mAP."""
     if len(y_true) == 0:
         return 0.0, np.zeros(num_classes)
     y_true = np.array(y_true)
@@ -284,31 +240,22 @@ def compute_map_ovr(y_true, probs, num_classes):
 
 
 def evaluate_full(model, dl, classes, header, save_prefix, out_dir, device, amp_enabled):
-    """Full evaluation report + mAP, returns metrics and predictions."""
     y_true, y_pred, probs = eval_collect(model, dl, len(classes), device, amp_enabled)
 
     labels = list(range(len(classes)))
     log(f"\n{header}:")
-    log(classification_report(
-        y_true, y_pred,
-        labels=labels,
-        target_names=classes,
-        digits=3,
-        zero_division=0
-    ))
+    log(classification_report(y_true, y_pred, labels=labels, target_names=classes, digits=3, zero_division=0))
     macro_f1 = f1_score(y_true, y_pred, labels=labels, average="macro", zero_division=0)
     log(f"{header} macro-F1: {macro_f1:.3f}")
 
     mAP_macro, ap_cls = compute_map_ovr(y_true, probs, len(classes))
     log(f"{header} mAP (macro, one-vs-rest): {mAP_macro:.3f}")
 
-    # Save per-class AP
     per_class_ap = {cls: float(ap) for cls, ap in zip(classes, ap_cls.tolist())}
     with (out_dir / f"{save_prefix}_ap_per_class.json").open("w", encoding="utf-8") as f:
         json.dump(per_class_ap, f, indent=2)
     log(f"{header} per-class AP written to {save_prefix}_ap_per_class.json")
 
-    # Save misclassified images
     ds = dl.dataset
     misclassified = []
     for i, (yt, yp) in enumerate(zip(y_true, y_pred)):
@@ -325,16 +272,10 @@ def evaluate_full(model, dl, classes, header, save_prefix, out_dir, device, amp_
         json.dump(misclassified, f, indent=2)
     log(f"{header}: {len(misclassified)} misclassified saved to {save_prefix}_misclassified.json")
 
-    metrics = {
-        "macro_f1": float(macro_f1),
-        "map_macro": float(mAP_macro),
-        "n_samples": int(len(y_true)),
-    }
-    return metrics, y_true, y_pred
+    return {"macro_f1": float(macro_f1), "map_macro": float(mAP_macro), "n_samples": int(len(y_true))}, y_true, y_pred
 
 
 def split_composition(ds, classes, label_key):
-    """Get class distribution in a dataset split."""
     cnt = Counter([r[label_key] for r in ds.rows])
     return {c: int(cnt.get(c, 0)) for c in classes}
 
@@ -344,7 +285,8 @@ def split_composition(ds, classes, label_key):
 # ============================================================================
 
 def train(
-    experiment: str,
+    label_mapping: Path,
+    image_root: Path,
     epochs: int = EPOCHS,
     lr: float = LR,
     weight_decay: float = WEIGHT_DECAY,
@@ -358,62 +300,66 @@ def train(
     amp_enabled: bool = AMP,
     out_dir: Optional[Path] = None,
 ):
-    """Main training function."""
-    global LOG_PATH, OUT_DIR
+    """Train Swin-Tiny from a label_mapping.json + crops directory.
+
+    Args:
+        label_mapping: Path to label_mapping.json. train.csv, val.csv, test.csv
+                       must exist in the same directory.
+        image_root:    Root directory containing the cropped images referenced
+                       by crop_path in the split CSVs.
+        out_dir:       Output directory for this run. Defaults to
+                       runs/<split_name>/.
+    """
+    global LOG_PATH
 
     run_start = time.perf_counter()
 
-    # Get experiment preset
-    if experiment not in EXPERIMENT_PRESETS:
-        raise ValueError(f"Unknown experiment: {experiment}. Choose from: {list(EXPERIMENT_PRESETS.keys())}")
-    preset = EXPERIMENT_PRESETS[experiment]
+    cfg = load_split_config(label_mapping)
+    split_name = cfg["split_name"]
+    classes = cfg["classes"]
+    num_classes = len(classes)
 
-    # Set up output directory
     if out_dir is None:
-        out_dir = Path(f"runs_2025_{experiment}")
+        out_dir = Path("runs") / split_name
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    # Create run subdirectory with hyperparameters
     lr_str = f"{int(round(lr * 1e6)):04d}"
     wd_str = f"{int(round(weight_decay * 10000)):04d}"
-    run_name = f"swin_cropsplit_full_ep{epochs}_lr{lr_str}_wd{wd_str}"
+    run_name = f"swin_ep{epochs}_lr{lr_str}_wd{wd_str}"
     run_dir = out_dir / run_name
     run_dir.mkdir(parents=True, exist_ok=True)
 
-    OUT_DIR = run_dir
     LOG_PATH = run_dir / "train.log"
     ckpt_path = run_dir / "best.pt"
 
-    log(f"[info] Experiment: {experiment}")
-    log(f"[info] Description: {preset['description']}")
+    log(f"[info] Split:         {split_name}")
+    log(f"[info] Label mapping: {label_mapping}")
+    log(f"[info] Image root:    {image_root}")
     log(f"[info] Run directory: {run_dir}")
+    log(f"[info] Classes ({num_classes}): {classes}")
 
-    # Set up data loaders
     dl_train, dl_val, dl_test, meta = set_up_data_loaders(
-        train_csv=preset["train_csv"],
-        val_csv=preset["val_csv"],
-        test_csv=preset["test_csv"],
-        image_root=preset["image_root"],
-        label_key=preset["label_key"],
+        train_csv=cfg["train_csv"],
+        val_csv=cfg["val_csv"],
+        test_csv=cfg["test_csv"],
+        image_root=image_root,
+        label_key="remapped_label",
         input_size=INPUT_SIZE,
         use_sampler=USE_SAMPLER,
         batch_train=batch_train,
         batch_eval=batch_eval,
         num_workers=num_workers,
-        max_per_class=None,  # Use all training data; no per-class cap
-        merge_groups=None,  # Merging already done in split CSVs
+        max_per_class=None,
+        merge_groups=None,
         sampler_power=SAMPLER_POWER,
     )
 
-    classes = meta["classes"]
-    num_classes = len(classes)
     dl_cfg = meta["dataloader_config"]
 
-    # Log configuration
     log("=" * 60)
     log("TRAINING CONFIGURATION")
     log("=" * 60)
-    log(f"  experiment:       {experiment}")
+    log(f"  split:            {split_name}")
     log(f"  model:            {model_name}")
     log(f"  loss:             CrossEntropy")
     log(f"  epochs:           {epochs}")
@@ -428,10 +374,9 @@ def train(
     log(f"  batch_train:      {dl_cfg['batch_train']}")
     log(f"  batch_eval:       {dl_cfg['batch_eval']}")
     log(f"  use_sampler:      {dl_cfg['use_sampler']}")
-    log(f"  sampler_power:    {dl_cfg['sampler_power']}  (1.0 = 1/count, 0.5 = 1/sqrt(count), 0.0 = uniform)")
+    log(f"  sampler_power:    {dl_cfg['sampler_power']}  (1.0=1/count, 0.5=1/sqrt(count), 0.0=uniform)")
     log(f"  num_workers:      {dl_cfg['num_workers']}")
     log(f"  image_root:       {dl_cfg['image_root']}")
-    log(f"  label_key:        {dl_cfg['label_key']}")
     log(f"  num_classes:      {num_classes}")
     log(f"  classes:          {classes}")
     log(f"  train_size:       {meta['sizes']['train']}")
@@ -439,40 +384,32 @@ def train(
     log(f"  test_size:        {meta['sizes']['test']}")
     log("=" * 60)
 
-    # Save split composition
-    label_key = preset["label_key"]
-    comp_train = split_composition(dl_train.dataset, classes, label_key)
-    comp_val = split_composition(dl_val.dataset, classes, label_key)
-    comp_test = split_composition(dl_test.dataset, classes, label_key)
+    comp_train = split_composition(dl_train.dataset, classes, "remapped_label")
+    comp_val   = split_composition(dl_val.dataset,   classes, "remapped_label")
+    comp_test  = split_composition(dl_test.dataset,  classes, "remapped_label")
     with open(run_dir / "split_composition.json", "w", encoding="utf-8") as f:
         json.dump({"train": comp_train, "val": comp_val, "test": comp_test}, f, indent=2)
     log("[info] saved split_composition.json")
 
-    # Model / optimizer
     model = timm.create_model(model_name, pretrained=True, num_classes=num_classes).to(device)
     opt = AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
     sched = CosineAnnealingLR(opt, T_max=max(epochs - warmup_epochs, 1))
     scaler = GradScaler(device="cuda", enabled=amp_enabled)
 
-    # Training history
     history = {"train_loss": [], "train_acc": [], "val_loss": [], "val_acc": []}
     best_metric = float("-inf")
 
-    # Training loop
     for ep in range(1, epochs + 1):
         ep_start = time.perf_counter()
 
-        # Learning rate warmup / schedule
         if ep <= warmup_epochs:
-            warmup_factor = ep / max(warmup_epochs, 1)
-            lr_now = lr * warmup_factor
+            lr_now = lr * ep / max(warmup_epochs, 1)
             for pg in opt.param_groups:
                 pg["lr"] = lr_now
         else:
             sched.step()
             lr_now = opt.param_groups[0]["lr"]
 
-        # Train pass
         model.train()
         running_loss = running_correct = running_count = 0
         opt.zero_grad(set_to_none=True)
@@ -499,7 +436,6 @@ def train(
         train_acc = running_correct / max(1, running_count)
         train_loss = running_loss / max(1, running_count)
 
-        # Validation pass
         t_val = time.perf_counter()
         model.eval()
         v_loss = v_correct = v_count = 0
@@ -520,7 +456,6 @@ def train(
 
         val_acc = v_correct / max(1, v_count)
         val_loss = v_loss / max(1, v_count)
-
         labels = list(range(num_classes))
         val_macro_f1 = f1_score(y_val_true, y_val_pred, labels=labels, average="macro", zero_division=0)
         t_ep_val = time.perf_counter() - t_val
@@ -535,26 +470,23 @@ def train(
             f"ep {ep:02d} | "
             f"train acc {train_acc:.3f} loss {train_loss:.3f} | "
             f"val acc {val_acc:.3f} loss {val_loss:.3f} | macroF1 {val_macro_f1:.3f} | "
-            f"lr {lr_now:.2e} | "
-            f"val_time {t_ep_val:.1f}s | ep_time {ep_dt:.1f}s"
+            f"lr {lr_now:.2e} | val_time {t_ep_val:.1f}s | ep_time {ep_dt:.1f}s"
         )
 
-        # Save best model
         if val_macro_f1 > best_metric:
             best_metric = val_macro_f1
             torch.save({
                 "model": model.state_dict(),
                 "classes": classes,
                 "name": model_name,
-                "experiment": experiment,
+                "label_mapping": str(label_mapping),
+                "split_name": split_name,
             }, ckpt_path)
             log(f"[info] new best val macro-F1 {best_metric:.3f} at epoch {ep:02d}")
 
-    # Save curves
     plot_curves(history, run_dir / "curves.pdf")
     log("[info] saved curves.pdf")
 
-    # Final evaluation
     ckpt = torch.load(ckpt_path, map_location=device)
     model.load_state_dict(ckpt["model"])
 
@@ -565,15 +497,16 @@ def train(
         model, dl_test, classes, "Test report", "test", run_dir, device, amp_enabled
     )
 
-    # Combined confusion matrices
     plot_two_cms(val_y, val_p, test_y, test_p, classes, run_dir / "val_test_cms.pdf")
     log("[info] saved val_test_cms.pdf")
 
-    # Save final summary
     summary = {
-        "experiment": experiment,
+        "split_name": split_name,
+        "label_mapping": str(label_mapping),
         "model": model_name,
         "epochs": epochs,
+        "num_classes": num_classes,
+        "classes": classes,
         "best_val_macro_f1": float(best_metric),
         "val_summary": val_summary,
         "test_summary": test_summary,
@@ -593,30 +526,34 @@ def train(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Train Swin-Tiny on 2025 seabird dataset with experiment presets"
+        description="Train Swin-Tiny seabird classifier from a label_mapping.json split"
     )
     parser.add_argument(
-        "--experiment", type=str, required=True,
-        choices=list(EXPERIMENT_PRESETS.keys()),
-        help="Experiment preset to run"
+        "--label-mapping", type=str, required=True,
+        help="Path to label_mapping.json. train.csv/val.csv/test.csv must be in the same directory."
     )
-    parser.add_argument("--epochs", type=int, default=EPOCHS)
-    parser.add_argument("--lr", type=float, default=LR)
-    parser.add_argument("--weight-decay", type=float, default=WEIGHT_DECAY)
-    parser.add_argument("--accum-steps", type=int, default=ACCUM_STEPS)
-    parser.add_argument("--warmup-epochs", type=int, default=WARMUP_EPOCHS)
-    parser.add_argument("--batch-train", type=int, default=BATCH_TRAIN)
-    parser.add_argument("--batch-eval", type=int, default=BATCH_EVAL)
-    parser.add_argument("--num-workers", type=int, default=NUM_WORKERS)
-    parser.add_argument("--model-name", type=str, default=MODEL_NAME)
-    parser.add_argument("--device", type=str, default="cuda" if torch.cuda.is_available() else "cpu")
-    parser.add_argument("--out-dir", type=str, default=None)
-    parser.add_argument("--no-amp", action="store_true", help="Disable automatic mixed precision")
+    parser.add_argument(
+        "--image-root", type=str, required=True,
+        help="Root directory containing cropped images (crop_path in CSVs is relative to this)."
+    )
+    parser.add_argument("--epochs",        type=int,   default=EPOCHS)
+    parser.add_argument("--lr",            type=float, default=LR)
+    parser.add_argument("--weight-decay",  type=float, default=WEIGHT_DECAY)
+    parser.add_argument("--accum-steps",   type=int,   default=ACCUM_STEPS)
+    parser.add_argument("--warmup-epochs", type=int,   default=WARMUP_EPOCHS)
+    parser.add_argument("--batch-train",   type=int,   default=BATCH_TRAIN)
+    parser.add_argument("--batch-eval",    type=int,   default=BATCH_EVAL)
+    parser.add_argument("--num-workers",   type=int,   default=NUM_WORKERS)
+    parser.add_argument("--model-name",    type=str,   default=MODEL_NAME)
+    parser.add_argument("--device",        type=str,   default="cuda" if torch.cuda.is_available() else "cpu")
+    parser.add_argument("--out-dir",       type=str,   default=None)
+    parser.add_argument("--no-amp",        action="store_true", help="Disable automatic mixed precision")
 
     args = parser.parse_args()
 
     train(
-        experiment=args.experiment,
+        label_mapping=Path(args.label_mapping),
+        image_root=Path(args.image_root),
         epochs=args.epochs,
         lr=args.lr,
         weight_decay=args.weight_decay,
