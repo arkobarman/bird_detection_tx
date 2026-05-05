@@ -30,11 +30,15 @@ Output Structure:
 import argparse
 import json
 import csv
+from datetime import datetime
 from pathlib import Path
 from collections import Counter
 
 import cv2
 import numpy as np
+
+# Repo root is two levels up from scripts/utils/
+_REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
 def crop_and_resize(
@@ -93,8 +97,9 @@ def main():
                         help="Path to COCO annotations JSON (e.g., all_annotations.json)")
     parser.add_argument("--tile-dir", type=str, required=True,
                         help="Root directory containing tile images (organized by OM_xxx/tiles/)")
-    parser.add_argument("--output-dir", type=str, required=True,
-                        help="Output directory for cropped images and CSV")
+    parser.add_argument("--output-dir", type=str, default=None,
+                        help="Output directory for cropped images and CSV "
+                             "(default: data/BirdDataset_2025_MMDDYYYY_crops)")
     parser.add_argument("--pad-frac", type=float, default=0.25,
                         help="Padding as fraction of bbox size (default: 0.25)")
     parser.add_argument("--size", type=int, default=224,
@@ -105,7 +110,14 @@ def main():
 
     json_path = Path(args.json)
     tile_dir = Path(args.tile_dir)
-    output_dir = Path(args.output_dir)
+
+    if args.output_dir is None:
+        date_str = datetime.now().strftime("%m%d%Y")
+        output_dir = _REPO_ROOT / "data" / f"BirdDataset_2025_{date_str}_crops"
+    else:
+        output_dir = Path(args.output_dir)
+
+    print(f"[info] Output directory: {output_dir}")
     crops_dir = output_dir / "crops"
     crops_dir.mkdir(parents=True, exist_ok=True)
 
