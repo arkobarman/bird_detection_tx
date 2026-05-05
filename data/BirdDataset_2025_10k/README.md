@@ -12,9 +12,9 @@ This dataset is part of an ongoing collaboration between the **Houston Audubon S
 
 The dataset consists of:
 
-- **22 orthomosaic images (~10,000 × 10,000 pixels each)** covering Chester Island
+- **24 orthomosaic images (~10,000 × 10,000 pixels each)** covering Chester Island
 - **Pixel-level segmentation masks, bounding boxes, and species labels** for each bird instance
-- **15,015 annotated bird instances across 35 species categories**
+- **16,002 annotated bird instances across 25 species categories**
 
 Annotations were generated through a semi-automated process:
 
@@ -63,7 +63,7 @@ We currently export these images as **10,000 × 10,000 pixel JPG files**, althou
 
 ```
 BirdDataset_2025_10k/
-├── images/                  # 22 orthomosaic images + 1 raw drone image
+├── images/                  # 24 orthomosaic images + 1 raw drone image
 ├── annotations/
 │   ├── all_annotations.json       # Combined annotations for all images
 │   ├── OM_001_annotations.json    # Individual annotations per image
@@ -73,7 +73,7 @@ BirdDataset_2025_10k/
 └── README.md
 ```
 
-- 22 orthomosaic images
+- 24 orthomosaic images
 - 1 raw drone image (reference)
 - COCO-style JSON annotations including:
   - segmentation masks
@@ -82,8 +82,8 @@ BirdDataset_2025_10k/
 
 ## Annotations
 
-- **Total annotated bird instances:** 15,015
-- **Total species categories:** 35
+- **Total annotated bird instances:** 16,002
+- **Total species categories:** 25
 
 ### Annotation File Formats
 
@@ -120,7 +120,7 @@ Per-image annotation files:
 ```json
 {
   "image": {
-    "file_name": "OM_001_20250510_10k-03-11.jpg",
+    "file_name": "OM_001_20250510_10k-01-14.jpg",
     "width": 10000,
     "height": 10000
   },
@@ -152,42 +152,32 @@ Per-image annotation files:
 
 | Species Code | Count |
 |--------------|-------|
-| ROTEA | 7,948 |
-| SATEA | 2,584 |
-| BRPEC | 1,956 |
-| LAGUA | 1,229 |
-| BRPEA | 563 |
+| ROTEA | 8,392 |
+| SATEA | 3,043 |
+| BRPEC | 1,963 |
+| LAGUA | 1,234 |
+| BRPEA | 579 |
+| BLSKA | 147 |
 | TRHEA | 143 |
 | GREGC | 99 |
-| GREGA | 86 |
+| GREGA | 87 |
+| RUTUA | 63 |
 | LWBBA | 59 |
-| MTRNS | 50 |
 | GBHEC | 47 |
-| RUTUA | 43 |
 | WHIBA | 40 |
-| ROTEF | 28 |
 | ROSPA | 25 |
-| OTHRA | 22 |
-| UNSURE | 17 |
+| OTHRA | 23 |
+| DCCOA | 18 |
 | GBHEA | 17 |
-| DCCOA | 16 |
-| SATEF | 7 |
-| LAGUF | 6 |
-| BRPEF | 6 |
 | SNEGA | 5 |
+| UNSURE | 5 |
 | CATEA | 4 |
 | AMAVA | 4 |
 | ROSPC | 2 |
-| WHIBF | 1 |
-| RUTUF | 1 |
-| REEGWMA | 1 |
-| REEGF | 1 |
+| REEGWM | 1 |
+| BLSTA | 1 |
 | REEGA | 1 |
-| NECOA | 1 |
-| GREGF | 1 |
-| DCCOF | 1 |
-| BNSTA | 1 |
-| **Total** | **15,015** |
+| **Total** | **16,002** |
 
 ## Annotation Process
 
