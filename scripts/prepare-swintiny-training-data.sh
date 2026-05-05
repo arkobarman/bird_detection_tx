@@ -20,6 +20,7 @@
 #   2. run_tiling.sh            → data/BirdDataset_2025_nonoverlapping_tiles_<size>_MMDDYYYY/
 #   3. run_splitting.sh         → splits/detection_tile_splits_MMDDYYYY/
 #   4. visualization scripts    → figures/data_exploration/MMDDYYYY/
+#   5. crop_coco_tiles.py       → data/BirdDataset_2025_crops_<size>_MMDDYYYY/
 
 set -e
 
@@ -69,6 +70,7 @@ DATASET_DIR="${OUTPUT_DIR}/BirdDataset_2025_10k_${DATE}"
 TILES_DIR="${OUTPUT_DIR}/BirdDataset_2025_nonoverlapping_tiles_${TILE_SIZE}_${DATE}"
 SPLIT_OUT="${SPLITS_DIR}/detection_tile_splits_${DATE}"
 FIGURES_OUT="${REPO_ROOT}/figures/data_exploration/${DATE}"
+CROPS_DIR="${OUTPUT_DIR}/BirdDataset_2025_crops_${TILE_SIZE}_${DATE}"
 
 # ── Print plan ────────────────────────────────────────────────────────────────
 echo "============================================================"
@@ -83,11 +85,12 @@ echo "Step 1 output  : ${DATASET_DIR}"
 echo "Step 2 output  : ${TILES_DIR}"
 echo "Step 3 output  : ${SPLIT_OUT}"
 echo "Step 4 output  : ${FIGURES_OUT}"
+echo "Step 5 output  : ${CROPS_DIR}"
 echo "============================================================"
 echo ""
 
 # ── Step 1: Prepare dataset ───────────────────────────────────────────────────
-echo "[1/3] Preparing dataset..."
+echo "[1/5] Preparing dataset..."
 
 PREPARE_SCRIPT="${SCRIPT_DIR}/utils/prepare_bird_dataset.py"
 PREPARE_ARGS=(
@@ -100,11 +103,11 @@ PREPARE_ARGS=(
 python3 "${PREPARE_SCRIPT}" "${PREPARE_ARGS[@]}"
 
 echo ""
-echo "[1/3] Done → ${DATASET_DIR}"
+echo "[1/5] Done → ${DATASET_DIR}"
 echo ""
 
 # ── Step 2: Tile orthomosaics ─────────────────────────────────────────────────
-echo "[2/3] Tiling orthomosaics..."
+echo "[2/5] Tiling orthomosaics..."
 
 bash "${SCRIPT_DIR}/tiling/run_tiling.sh" \
     --dataset-dir "${DATASET_DIR}" \
@@ -112,22 +115,22 @@ bash "${SCRIPT_DIR}/tiling/run_tiling.sh" \
     --tile-size   "${TILE_SIZE}"
 
 echo ""
-echo "[2/3] Done → ${TILES_DIR}"
+echo "[2/5] Done → ${TILES_DIR}"
 echo ""
 
 # ── Step 3: Generate splits ───────────────────────────────────────────────────
-echo "[3/3] Generating train/val/test splits..."
+echo "[3/5] Generating train/val/test splits..."
 
 bash "${SCRIPT_DIR}/splitting/run_splitting.sh" \
     --tiles-dir  "${TILES_DIR}" \
     --output-dir "${SPLIT_OUT}"
 
 echo ""
-echo "[3/3] Done → ${SPLIT_OUT}"
+echo "[3/5] Done → ${SPLIT_OUT}"
 echo ""
 
 # ── Step 4: EDA visualizations ────────────────────────────────────────────────
-echo "[4/4] Generating EDA visualizations..."
+echo "[4/5] Generating EDA visualizations..."
 
 VIZ_DIR="${SCRIPT_DIR}/visualization"
 
@@ -149,7 +152,19 @@ python3 "${VIZ_DIR}/plot_split_distribution.py" \
     --output-dir "${FIGURES_OUT}/split_distribution"
 
 echo ""
-echo "[4/4] Done → ${FIGURES_OUT}"
+echo "[4/5] Done → ${FIGURES_OUT}"
+echo ""
+
+# ── Step 5: Crop individual bird images ───────────────────────────────────────
+echo "[5/5] Cropping individual bird images..."
+
+python3 "${SCRIPT_DIR}/utils/crop_coco_tiles.py" \
+    --json      "${TILES_DIR}/all_annotations.json" \
+    --tile-dir  "${TILES_DIR}" \
+    --output-dir "${CROPS_DIR}"
+
+echo ""
+echo "[5/5] Done → ${CROPS_DIR}"
 echo ""
 
 # ── Summary ───────────────────────────────────────────────────────────────────
@@ -160,4 +175,5 @@ echo "Dataset  : ${DATASET_DIR}"
 echo "Tiles    : ${TILES_DIR}"
 echo "Splits   : ${SPLIT_OUT}"
 echo "Figures  : ${FIGURES_OUT}"
+echo "Crops    : ${CROPS_DIR}"
 echo "============================================================"
