@@ -1,12 +1,14 @@
 #!/bin/bash
 #
-# Tile all orthomosaic images into 500x500 patches
+# Tile all orthomosaic images into NxN patches
 #
 # Usage:
-#   ./run_tiling.sh
+#   ./run_tiling.sh --dataset-dir DIR --output-dir DIR [--tile-size N]
 #
-# This script processes all OM_*.jpg images in the source directory
-# and generates tiles with COCO annotations for each.
+# Options:
+#   --dataset-dir DIR   Path to BirdDataset_2025_10k_* folder (required)
+#   --output-dir  DIR   Path to write tiled output (required)
+#   --tile-size   N     Tile size in pixels (default: 500)
 
 set -e  # Exit on error
 
@@ -16,27 +18,33 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Get the repository root (two levels up from scripts/tiling/)
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 
-# Configuration
+# Defaults
 TILE_SIZE=500
-DATASET_DIR="${REPO_ROOT}/data/BirdDataset_2025_10k"
+DATASET_DIR=""
+OUTPUT_BASE=""
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --dataset-dir) DATASET_DIR="$2"; shift 2 ;;
+        --output-dir)  OUTPUT_BASE="$2";  shift 2 ;;
+        --tile-size)   TILE_SIZE="$2";    shift 2 ;;
+        *) echo "Unknown argument: $1"; exit 1 ;;
+    esac
+done
+
+if [ -z "${DATASET_DIR}" ] || [ -z "${OUTPUT_BASE}" ]; then
+    echo "Usage: $0 --dataset-dir DIR --output-dir DIR [--tile-size N]"
+    exit 1
+fi
+
 SOURCE_IMAGES="${DATASET_DIR}/images"
 SOURCE_ANNOTATIONS="${DATASET_DIR}/annotations"
-OUTPUT_BASE="${REPO_ROOT}/data/tiled_${TILE_SIZE}"
 TILING_SCRIPT="${SCRIPT_DIR}/tile_orthomosaics_nonoverlapping.py"
 
 # Verify dataset exists
 if [ ! -d "${DATASET_DIR}" ]; then
     echo "ERROR: Dataset not found at ${DATASET_DIR}"
-    echo ""
-    echo "Please ensure the BirdDataset_2025_10k folder is placed at:"
-    echo "  <repo_root>/data/BirdDataset_2025_10k/"
-    echo ""
-    echo "Expected structure:"
-    echo "  data/BirdDataset_2025_10k/"
-    echo "    ├── images/"
-    echo "    │   └── OM_*.jpg"
-    echo "    └── annotations/"
-    echo "        └── OM_*_annotations.json"
     exit 1
 fi
 
@@ -112,7 +120,7 @@ echo ""
 
 # Merge all annotations into one combined file
 echo "Merging annotations..."
-MERGE_SCRIPT="${REPO_ROOT}/utils/merge_annotations.py"
+MERGE_SCRIPT="${SCRIPT_DIR}/../utils/merge_annotations.py"
 COMBINED_ANNOTATIONS="${OUTPUT_BASE}/all_annotations.json"
 
 python3 "${MERGE_SCRIPT}" \

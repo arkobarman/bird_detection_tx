@@ -3,24 +3,42 @@
 # Generate train/val/test splits for the tiled bird detection dataset
 #
 # Usage:
-#   ./run_splitting.sh
+#   ./run_splitting.sh --tiles-dir DIR --output-dir DIR [--iterations N] [--seed N]
 #
-# This script generates 80/10/10 splits optimized for species distribution.
+# Options:
+#   --tiles-dir   DIR   Path to tiled dataset folder with all_annotations.json (required)
+#   --output-dir  DIR   Path to write split files (required)
+#   --iterations  N     Optimization iterations (default: 5000)
+#   --seed        N     Random seed (default: 42)
 
 set -e  # Exit on error
 
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Get the repository root (two levels up from scripts/splitting/)
-REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
-
-# Configuration
-DATASET_DIR="${REPO_ROOT}/data/BirdDataset_2025_nonoverlapping_tiles_500"
-ANNOTATIONS="${DATASET_DIR}/all_annotations.json"
-OUTPUT_DIR="${REPO_ROOT}/splits/detection_tile_splits"
+# Defaults
+DATASET_DIR=""
+OUTPUT_DIR=""
 ITERATIONS=5000
 SEED=42
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --tiles-dir)   DATASET_DIR="$2"; shift 2 ;;
+        --output-dir)  OUTPUT_DIR="$2";  shift 2 ;;
+        --iterations)  ITERATIONS="$2";  shift 2 ;;
+        --seed)        SEED="$2";        shift 2 ;;
+        *) echo "Unknown argument: $1"; exit 1 ;;
+    esac
+done
+
+if [ -z "${DATASET_DIR}" ] || [ -z "${OUTPUT_DIR}" ]; then
+    echo "Usage: $0 --tiles-dir DIR --output-dir DIR [--iterations N] [--seed N]"
+    exit 1
+fi
+
+ANNOTATIONS="${DATASET_DIR}/all_annotations.json"
 
 # Verify input exists
 if [ ! -f "${ANNOTATIONS}" ]; then
