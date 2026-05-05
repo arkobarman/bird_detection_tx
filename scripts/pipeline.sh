@@ -144,6 +144,10 @@ python3 "${VIZ_DIR}/plot_tiled_distribution.py" \
     --output "${FIGURES_OUT}/tiled_dataset_distribution.png" \
     --title  "Chester Island 2025 Tiled Dataset (${TILE_SIZE}px) — ${DATE}"
 
+python3 "${VIZ_DIR}/plot_split_distribution.py" \
+    --split-dir  "${SPLIT_OUT}" \
+    --output-dir "${FIGURES_OUT}/split_distribution"
+
 echo ""
 echo "[4/4] Done → ${FIGURES_OUT}"
 echo ""
