@@ -79,7 +79,7 @@ for IMAGE_PATH in "${SOURCE_IMAGES}"/OM_*.jpg; do
 
     if [ -z "${OM_ID}" ]; then
         echo "WARNING: Could not extract OM ID from ${FILENAME}, skipping"
-        ((FAILED++))
+        FAILED=$((FAILED + 1))
         continue
     fi
 
@@ -88,7 +88,7 @@ for IMAGE_PATH in "${SOURCE_IMAGES}"/OM_*.jpg; do
 
     if [ ! -f "${ANNOTATION_PATH}" ]; then
         echo "WARNING: Annotation file not found: ${ANNOTATION_PATH}, skipping"
-        ((FAILED++))
+        FAILED=$((FAILED + 1))
         continue
     fi
 
@@ -107,7 +107,7 @@ for IMAGE_PATH in "${SOURCE_IMAGES}"/OM_*.jpg; do
         -o "${OUTPUT_DIR}" \
         -t "${TILE_SIZE}"
 
-    ((PROCESSED++))
+    PROCESSED=$((PROCESSED + 1))
     echo ""
 done
 
