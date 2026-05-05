@@ -1,0 +1,332 @@
+from pathlib import Path
+import csv
+import random
+from collections import Counter
+from typing import Dict, List, Optional, Tuple
+
+import numpy as np
+import torch
+from torch.utils.data import DataLoader, WeightedRandomSampler
+import pandas as pd
+
+from .ImageTransformer import get_transforms
+from .BirdDataset import BirdDataset
+
+"""
+4. DATA LOADER MODULE
+
+This module defines a PyTorch Dataset and DataLoader setup for bird species classification.
+It reads CSV files defining training, validation, and test splits, applies data augmentations,
+and supports weighted sampling to address class imbalance.
+
+The BirdDataset class expects CSV rows with at least:
+    - crop_path       (path is relative to DATA_DIR or absolute)
+    - species_name    (string label)
+Optional but preserved: source_image, bbox_original, bbox_expanded, etc.
+
+The build_loaders function constructs DataLoader objects for training, validation, and testing,
+with configurable parameters such as input size, batch size, and whether to use a weighted sampler.
+"""
+
+# ---------- CONFIG ----------
+DATA_DIR   = Path(r"data")  # where split_*.csv live
+IMAGE_ROOT = Path(r"data/crops") # where cropped images live
+TRAIN_CSV = DATA_DIR / "split_train.csv"
+VAL_CSV   = DATA_DIR / "split_val.csv"
+TEST_CSV  = DATA_DIR / "split_test.csv"
+
+# inputs to the dataloader
+INPUT_SIZE = 224            # 224 or 256 or 320
+USE_SAMPLER = True 
+BATCH_TRAIN = 32            
+BATCH_EVAL  = 128
+NUM_WORKERS = 16 # DataLoader parallelization is on the CPU side # Start around num_workers = (#CPU cores) / 2
+SEED = 42
+
+def _build_label_map(rows: List[Dict], label_key: str = "species_name"):
+    """
+    Given a list of rows (dicts), and a label key (default: "species_name"),
+    Build a consistent label map from label -> class index.
+    """
+    # get all unique labels
+    classes: List[str] = sorted({row[label_key] for row in rows})
+
+    # assign each class a unique index
+    class2id = {class_name: i for i, class_name in enumerate(classes)}
+    return class2id, classes
+
+def _cap_per_class(df: pd.DataFrame, max_per_class: int, label_key: str = "species_name") -> pd.DataFrame:
+    """
+    Cap (limit) the number of rows per class, without upsampling.
+
+    Behavior:
+        - If max_per_class is None: return df unchanged (no capping).
+        - Otherwise:
+            * Shuffle the DataFrame once.
+            * For each class (by label_key), keep at most max_per_class rows.
+            * Classes with fewer than max_per_class examples keep all
+            their rows (we do NOT create or duplicate samples).
+    """
+    if max_per_class is None:
+        return df
+
+    # Shuffle once, then take first K per class
+    df = df.sample(frac=1.0, random_state=42)
+    return (
+        df.groupby(label_key, group_keys=False)
+        .head(max_per_class)
+        .reset_index(drop=True) # drop=True means we don't add the old index as a new column.
+    )
+    
+def _apply_merge_groups(
+    df: pd.DataFrame,
+    merge_groups: List[List[str]],
+    cap_per_class: Optional[int],
+    label_key: str = "species_name",
+) -> pd.DataFrame:
+    """
+    Merge specified classes into combined classes with balanced sub-class sampling.
+
+    For each group (e.g. ["GREG", "WHIB", "MEGRT"]):
+      1) Cap each sub-class at cap_per_class // group_size so the merged class
+         has roughly equal representation from each original species.
+      2) Rename label to the merged name (sorted, joined with "_").
+
+    Args:
+        df:             DataFrame with a label column.
+        merge_groups:   list of lists, e.g. [["GREG", "WHIB", "MEGRT"]].
+        cap_per_class:  overall per-class cap for this split (max_per_class for
+                        train, cap_val_test for val/test).  If None the sub-class
+                        balancing step is skipped and all rows are kept.
+        label_key:      column name for labels (default: "species_name").
+    """
+    for group in merge_groups:
+        merged_name = "_".join(sorted(group))
+        group_size = len(group)
+
+        mask = df[label_key].isin(group)
+        group_df = df[mask].copy()
+        other_df = df[~mask].copy()
+
+        # balance sub-classes within the merge group
+        if cap_per_class is not None:
+            sub_cap = max(1, cap_per_class // group_size)
+            group_df = group_df.sample(frac=1.0, random_state=42)
+            group_df = (
+                group_df.groupby(label_key, group_keys=False)
+                .head(sub_cap)
+            )
+
+        # rename to merged label
+        group_df[label_key] = merged_name
+
+        df = pd.concat([other_df, group_df], ignore_index=True)
+
+    return df
+
+
+def set_up_data_loaders(
+    train_csv=TRAIN_CSV,
+    val_csv=VAL_CSV,
+    test_csv=TEST_CSV,
+    image_root=IMAGE_ROOT,
+    label_key: str = "species_name",
+    input_size=INPUT_SIZE,
+    use_sampler=USE_SAMPLER,
+    batch_train=BATCH_TRAIN,
+    batch_eval=BATCH_EVAL,
+    num_workers=NUM_WORKERS,
+    max_per_class=None,
+    merge_groups: Optional[List[List[str]]] = None,
+    sampler_power: float = 1.0,
+) -> Tuple[DataLoader, DataLoader, DataLoader, dict]:
+    """
+    Build PyTorch DataLoaders for train/val/test splits.
+
+    This helper:
+      1) Reads split CSVs (train/val/test).
+      2) Optionally caps the number of samples per class in each split.
+      3) Builds a consistent label map from label_key -> class index
+         based on the (possibly capped) training split.
+      4) Creates BirdDataset instances with appropriate augmentations.
+      5) Optionally uses a WeightedRandomSampler on the training set
+         to mitigate class imbalance.
+
+    Args:
+        train_csv: path to CSV with training rows (default: DATA_DIR/split_train.csv).
+        val_csv:   path to CSV with validation rows (default: DATA_DIR/split_val.csv).
+        test_csv:  path to CSV with test rows (default: DATA_DIR/split_test.csv).
+        image_root: root directory for crop images (default: data/crops).
+        label_key: column name for class labels (default: "species_name").
+                   For 2025 dataset with remapped labels, use "remapped_label".
+        input_size: image size (pixels, square) for model input; controls
+                    resize/crop behavior inside the Albumentations pipeline.
+        use_sampler: if True, use a WeightedRandomSampler for the training loader
+                     based on inverse class frequency (helps balance long-tailed classes).
+        batch_train: training batch size.
+        batch_eval:  evaluation batch size for val/test.
+        num_workers: number of worker processes used by each DataLoader to load
+                     and augment images in parallel.
+        max_per_class: if not None, cap the number of training samples per class
+                       to this value. Val/test are capped to roughly max_per_class / 5
+                       per class to keep them smaller while preserving class coverage.
+        sampler_power: exponent applied to class counts when computing sampler weights:
+                       weight = 1 / count^sampler_power. Only matters when use_sampler=True.
+                       1.0 (default) = fully inverse-frequency (classic 1/count), balances
+                       classes per epoch but heavily over-repeats rare classes.
+                       0.5 = square-root reweighting, softer correction that still favours
+                       rare classes but preserves more of the natural distribution, useful
+                       when rare classes risk overfitting from extreme oversampling.
+                       0.0 = disables reweighting entirely (uniform sampling).
+
+    Returns:
+        dl_train: DataLoader for training.
+        dl_val:   DataLoader for validation.
+        dl_test:  DataLoader for testing.
+        meta:     dict with:
+                  - "classes": list of class names (ordered by index)
+                  - "cls2id": mapping from class name -> index
+                  - "class_counts": Counter of training samples per class
+                  - "class_weights": 1/frequency normalized array for use in loss
+                  - "sizes": dict with sizes of train/val/test (after capping)
+    """
+
+    # 1) read CSVs as Pandas DataFrames
+    train_df = pd.read_csv(train_csv)
+    val_df   = pd.read_csv(val_csv)
+    test_df  = pd.read_csv(test_csv)
+
+    # 2a) ================= MERGE CLASSES (if merge_groups is provided) =================
+    if max_per_class is not None:
+        cap_val_test = max(1, max_per_class // 5)
+    else:
+        cap_val_test = None
+
+    if merge_groups is not None:
+        train_df = _apply_merge_groups(train_df, merge_groups, max_per_class, label_key)
+        val_df   = _apply_merge_groups(val_df,   merge_groups, cap_val_test, label_key)
+        test_df  = _apply_merge_groups(test_df,  merge_groups, cap_val_test, label_key)
+
+    # 2b) ================= CAP CLASS SIZES (if max_per_class is provided) =================
+    train_df = _cap_per_class(train_df, max_per_class, label_key)
+    val_df  = _cap_per_class(val_df,  cap_val_test, label_key)
+    test_df = _cap_per_class(test_df, cap_val_test, label_key)
+
+    # 3) convert to list[dict] that BirdDataset expects
+    train_rows: List[Dict] = train_df.to_dict(orient="records")
+    val_rows: List[Dict] = val_df.to_dict(orient="records")
+    test_rows: List[Dict] = test_df.to_dict(orient="records")
+
+    # 4) class label map derived from TRAINING SPLIT ONLY
+    class2id, species = _build_label_map(train_rows, label_key)
+
+    # 5) transforms
+    train_transformer = get_transforms(input_size, train=True)
+    eval_transformer = get_transforms(input_size, train=False)
+
+    # 6) ================ create BirdDataset instances for each split ================
+    #    these wrap the raw metadata rows and,
+    #    when indexed, will load the image from disk, apply the appropriate
+    #    transform (train/eval), and return (image_tensor, label_tensor) pairs.
+    # TODO: learn what a tensor is and explain in the report
+    ds_train = BirdDataset(train_rows, class2id, image_root, train_transformer, missing_size=input_size, label_key=label_key)
+    ds_val = BirdDataset(val_rows, class2id, image_root, eval_transformer, missing_size=input_size, label_key=label_key)
+    ds_test = BirdDataset(test_rows, class2id, image_root, eval_transformer, missing_size=input_size, label_key=label_key)
+
+    # 7) ============= sampler / class weights from CAPPED train set =============
+
+    # counting how many from each class in the training set
+    class_counts = Counter([r[label_key] for r in train_rows])
+    sampler = None
+    if use_sampler:
+        # Since our dataset is long-tailed (some classes have many more samples
+        # than others), we can use a WeightedRandomSampler to balance the classes
+        # during training. This sampler assigns a weight to each sample inversely
+        # proportional to its class frequency, so that rarer classes are sampled more
+        # frequently.
+
+        # If we just sample uniformly from the dataset, common classes will dominate in most batches,
+        # and the model will not learn to recognize rare classes well. We want the model to see the
+        # rare classes more often during training without actually duplicating any data.
+        # sampler_power controls how aggressive the reweighting is:
+        #   1.0 -> classic 1/count (fully balances classes per epoch)
+        #   0.5 -> 1/sqrt(count) (softer: rare classes still favoured, but less aggressively)
+        #   0.0 -> uniform (no reweighting)
+        weights = np.array(
+            [1.0 / (class_counts[r[label_key]] ** sampler_power) for r in train_rows],
+            dtype=np.float64,
+        )
+        
+        # WeightedRandomSampler draws length(weights) samples per epoch, essentially creating a new
+        # balanced dataset each epoch by oversampling rare classes and undersampling common ones.
+        # This helps with balanced learning, which then improves macro metrics like F1-score across all classes.
+        # tradeoff: 
+        # - some samples from common classes may be skipped in an epoch, so we don't use all their diversity in each epoch. 
+        # - rare classes might slightly overfit since they are repeated more often.
+        sampler = WeightedRandomSampler(weights, num_samples=len(weights), replacement=True)
+
+    # Using PyTorch DataLoader to handle batching, shuffling, and parallel loading.
+    dl_train = DataLoader(ds_train,
+                            batch_size=batch_train,
+                            shuffle=(sampler is None), # if the sampler is used, disable shuffle
+                            sampler=sampler, 
+                            num_workers=num_workers, # the number of subprocesses to use for data loading
+                            pin_memory=True,
+                            persistent_workers=(num_workers > 0))
+    dl_val   = DataLoader(ds_val,
+                            batch_size=batch_eval,
+                            shuffle=False,
+                            num_workers=num_workers,
+                            pin_memory=True,
+                            persistent_workers=(num_workers > 0))
+    dl_test  = DataLoader(ds_test,
+                            batch_size=batch_eval,
+                            shuffle=False,
+                            num_workers=num_workers,
+                            pin_memory=True,
+                          persistent_workers=(num_workers > 0))
+
+    # 8) normalized class weights (optional for Cross Entropy/Focal loss [the standard loss for multi‑class classification])
+    # precomputing a per-class weight vector that can be plugged into some loss functions to help with class imbalance.
+    # class_counts[c] = how many training samples you have for class c (after any capping). 
+    # raw_weight_c = 1.0 / class_counts[c] for each class. 
+    cls_weights = np.array([1.0 / max(class_counts[c], 1) for c in species], dtype=np.float32)
+    normalized_cls_weights = cls_weights / cls_weights.mean()
+
+    meta = {
+        "classes": species,
+        "class2id": class2id,
+        "class_counts": class_counts,
+        "class_weights": torch.tensor(normalized_cls_weights, dtype=torch.float32),
+        "sizes": {"train": len(train_rows), "val": len(val_rows), "test": len(test_rows)},
+        "dataloader_config": {
+            "input_size": input_size,
+            "use_sampler": use_sampler,
+            "sampler_power": sampler_power,
+            "batch_train": batch_train,
+            "batch_eval": batch_eval,
+            "num_workers": num_workers,
+            "max_per_class": max_per_class,
+            "merge_groups": merge_groups,
+            "image_root": str(image_root),
+            "label_key": label_key,
+        },
+    }
+    return dl_train, dl_val, dl_test, meta
+
+if __name__ == "__main__":
+    train_dl, val_dl, test_dl, meta = set_up_data_loaders()
+    
+    # sanity checks
+    print(f"Train size: {len(train_dl.dataset)}")
+    print(f"Val size:   {len(val_dl.dataset)}")
+    print(f"Test size:  {len(test_dl.dataset)}")
+    print("Num classes:", len(meta["classes"]))
+    print("Classes:", meta["classes"])
+
+    # xb = x batch = tensor of input images, shape roughly (batch_size, 3, H, W) (e.g., (32, 3, 224, 224)).
+    # yb = y batch = tensor of labels, shape (batch_size,) (e.g., (32,)), with each entry an integer class index.
+    xb, yb = next(iter(train_dl))
+    # confirm shapes
+    print("train batch:", xb.shape, yb.shape)
+    print("num classes:", len(meta["classes"]))
