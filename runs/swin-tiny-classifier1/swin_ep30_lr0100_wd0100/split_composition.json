@@ -1,0 +1,38 @@
+{
+  "train": {
+    "BLSKA": 151,
+    "BRPEA": 681,
+    "BRPEC": 2002,
+    "GBHEA": 20,
+    "GBHEC": 48,
+    "LAGUA": 1194,
+    "LARGE_WHITE_BIRDS": 274,
+    "OTHERS": 275,
+    "ROTEA": 8219,
+    "SATEA": 2841
+  },
+  "val": {
+    "BLSKA": 19,
+    "BRPEA": 85,
+    "BRPEC": 250,
+    "GBHEA": 2,
+    "GBHEC": 6,
+    "LAGUA": 149,
+    "LARGE_WHITE_BIRDS": 34,
+    "OTHERS": 34,
+    "ROTEA": 1027,
+    "SATEA": 355
+  },
+  "test": {
+    "BLSKA": 19,
+    "BRPEA": 86,
+    "BRPEC": 251,
+    "GBHEA": 3,
+    "GBHEC": 6,
+    "LAGUA": 150,
+    "LARGE_WHITE_BIRDS": 35,
+    "OTHERS": 35,
+    "ROTEA": 1028,
+    "SATEA": 356
+  }
+}

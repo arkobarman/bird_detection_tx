@@ -1,0 +1,30 @@
+{
+  "split_name": "swin-tiny-classifier1",
+  "label_mapping": "/home/ubuntu/nomin-classification-fs/bird_detection_tx/splits/swin-tiny-classifier1/label_mapping.json",
+  "model": "swin_tiny_patch4_window7_224",
+  "epochs": 30,
+  "num_classes": 10,
+  "classes": [
+    "BLSKA",
+    "BRPEA",
+    "BRPEC",
+    "GBHEA",
+    "GBHEC",
+    "LAGUA",
+    "LARGE_WHITE_BIRDS",
+    "OTHERS",
+    "ROTEA",
+    "SATEA"
+  ],
+  "best_val_macro_f1": 0.8940943898911728,
+  "val_summary": {
+    "macro_f1": 0.8940943898911728,
+    "map_macro": 0.934671116071598,
+    "n_samples": 1961
+  },
+  "test_summary": {
+    "macro_f1": 0.8855656129638136,
+    "map_macro": 0.9156608884122311,
+    "n_samples": 1969
+  }
+}

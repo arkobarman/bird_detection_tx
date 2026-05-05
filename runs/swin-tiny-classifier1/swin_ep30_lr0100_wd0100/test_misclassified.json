@@ -1,0 +1,1171 @@
+[
+  {
+    "crop_path": "BLSKA/BLSKA_000197.png",
+    "true_label": "BLSKA",
+    "predicted_label": "BRPEA",
+    "true_class_conf": 0.0282,
+    "predicted_class_conf": 0.9587
+  },
+  {
+    "crop_path": "BRPEA/BRPEA_014513.png",
+    "true_label": "BRPEA",
+    "predicted_label": "GBHEC",
+    "true_class_conf": 0.0882,
+    "predicted_class_conf": 0.9118
+  },
+  {
+    "crop_path": "BRPEA/BRPEA_013029.png",
+    "true_label": "BRPEA",
+    "predicted_label": "BRPEC",
+    "true_class_conf": 0.0,
+    "predicted_class_conf": 0.9979
+  },
+  {
+    "crop_path": "BRPEA/BRPEA_009428.png",
+    "true_label": "BRPEA",
+    "predicted_label": "LAGUA",
+    "true_class_conf": 0.1015,
+    "predicted_class_conf": 0.8272
+  },
+  {
+    "crop_path": "BRPEA/BRPEA_012205.png",
+    "true_label": "BRPEA",
+    "predicted_label": "BRPEC",
+    "true_class_conf": 0.0002,
+    "predicted_class_conf": 0.9998
+  },
+  {
+    "crop_path": "BRPEA/BRPEA_012202.png",
+    "true_label": "BRPEA",
+    "predicted_label": "BRPEC",
+    "true_class_conf": 0.0017,
+    "predicted_class_conf": 0.9965
+  },
+  {
+    "crop_path": "BRPEA/BRPEA_014111.png",
+    "true_label": "BRPEA",
+    "predicted_label": "OTHERS",
+    "true_class_conf": 0.1784,
+    "predicted_class_conf": 0.6423
+  },
+  {
+    "crop_path": "BRPEA/BRPEA_012470.png",
+    "true_label": "BRPEA",
+    "predicted_label": "BRPEC",
+    "true_class_conf": 0.0006,
+    "predicted_class_conf": 0.9994
+  },
+  {
+    "crop_path": "BRPEA/BRPEA_011352.png",
+    "true_label": "BRPEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0,
+    "predicted_class_conf": 0.818
+  },
+  {
+    "crop_path": "BRPEC/BRPEC_014633.png",
+    "true_label": "BRPEC",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0001,
+    "predicted_class_conf": 0.6807
+  },
+  {
+    "crop_path": "BRPEC/BRPEC_012427.png",
+    "true_label": "BRPEC",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0078,
+    "predicted_class_conf": 0.9768
+  },
+  {
+    "crop_path": "BRPEC/BRPEC_015355.png",
+    "true_label": "BRPEC",
+    "predicted_label": "LARGE_WHITE_BIRDS",
+    "true_class_conf": 0.4565,
+    "predicted_class_conf": 0.5399
+  },
+  {
+    "crop_path": "BRPEC/BRPEC_009323.png",
+    "true_label": "BRPEC",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.1237,
+    "predicted_class_conf": 0.8752
+  },
+  {
+    "crop_path": "BRPEC/BRPEC_013335.png",
+    "true_label": "BRPEC",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0005,
+    "predicted_class_conf": 0.962
+  },
+  {
+    "crop_path": "BRPEC/BRPEC_014978.png",
+    "true_label": "BRPEC",
+    "predicted_label": "LARGE_WHITE_BIRDS",
+    "true_class_conf": 0.0,
+    "predicted_class_conf": 1.0
+  },
+  {
+    "crop_path": "BRPEC/BRPEC_015348.png",
+    "true_label": "BRPEC",
+    "predicted_label": "LARGE_WHITE_BIRDS",
+    "true_class_conf": 0.0,
+    "predicted_class_conf": 1.0
+  },
+  {
+    "crop_path": "BRPEC/BRPEC_012921.png",
+    "true_label": "BRPEC",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.4529,
+    "predicted_class_conf": 0.5463
+  },
+  {
+    "crop_path": "BRPEC/BRPEC_013482.png",
+    "true_label": "BRPEC",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0033,
+    "predicted_class_conf": 0.5868
+  },
+  {
+    "crop_path": "BRPEC/BRPEC_010171.png",
+    "true_label": "BRPEC",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.2274,
+    "predicted_class_conf": 0.7228
+  },
+  {
+    "crop_path": "BRPEC/BRPEC_014285.png",
+    "true_label": "BRPEC",
+    "predicted_label": "LARGE_WHITE_BIRDS",
+    "true_class_conf": 0.0026,
+    "predicted_class_conf": 0.9974
+  },
+  {
+    "crop_path": "BRPEC/BRPEC_011925.png",
+    "true_label": "BRPEC",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.1441,
+    "predicted_class_conf": 0.5011
+  },
+  {
+    "crop_path": "BRPEC/BRPEC_012012.png",
+    "true_label": "BRPEC",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.2015,
+    "predicted_class_conf": 0.7968
+  },
+  {
+    "crop_path": "BRPEC/BRPEC_014516.png",
+    "true_label": "BRPEC",
+    "predicted_label": "LARGE_WHITE_BIRDS",
+    "true_class_conf": 0.0558,
+    "predicted_class_conf": 0.9431
+  },
+  {
+    "crop_path": "BRPEC/BRPEC_012426.png",
+    "true_label": "BRPEC",
+    "predicted_label": "LAGUA",
+    "true_class_conf": 0.031,
+    "predicted_class_conf": 0.9287
+  },
+  {
+    "crop_path": "BRPEC/BRPEC_014695.png",
+    "true_label": "BRPEC",
+    "predicted_label": "BRPEA",
+    "true_class_conf": 0.0002,
+    "predicted_class_conf": 0.5516
+  },
+  {
+    "crop_path": "BRPEC/BRPEC_013661.png",
+    "true_label": "BRPEC",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.2013,
+    "predicted_class_conf": 0.6782
+  },
+  {
+    "crop_path": "BRPEC/BRPEC_012308.png",
+    "true_label": "BRPEC",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.2066,
+    "predicted_class_conf": 0.7766
+  },
+  {
+    "crop_path": "GBHEA/GBHEA_015111.png",
+    "true_label": "GBHEA",
+    "predicted_label": "BRPEA",
+    "true_class_conf": 0.0,
+    "predicted_class_conf": 1.0
+  },
+  {
+    "crop_path": "GBHEC/GBHEC_014921.png",
+    "true_label": "GBHEC",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0008,
+    "predicted_class_conf": 0.7496
+  },
+  {
+    "crop_path": "LAGUA/LAGUA_003812.png",
+    "true_label": "LAGUA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0138,
+    "predicted_class_conf": 0.6806
+  },
+  {
+    "crop_path": "LAGUA/LAGUA_012983.png",
+    "true_label": "LAGUA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0077,
+    "predicted_class_conf": 0.9919
+  },
+  {
+    "crop_path": "LAGUA/LAGUA_009577.png",
+    "true_label": "LAGUA",
+    "predicted_label": "OTHERS",
+    "true_class_conf": 0.2493,
+    "predicted_class_conf": 0.75
+  },
+  {
+    "crop_path": "LAGUA/LAGUA_018751.png",
+    "true_label": "LAGUA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0235,
+    "predicted_class_conf": 0.6967
+  },
+  {
+    "crop_path": "LAGUA/LAGUA_011882.png",
+    "true_label": "LAGUA",
+    "predicted_label": "BRPEC",
+    "true_class_conf": 0.087,
+    "predicted_class_conf": 0.7755
+  },
+  {
+    "crop_path": "LAGUA/LAGUA_004625.png",
+    "true_label": "LAGUA",
+    "predicted_label": "BRPEA",
+    "true_class_conf": 0.0643,
+    "predicted_class_conf": 0.4312
+  },
+  {
+    "crop_path": "LAGUA/LAGUA_012869.png",
+    "true_label": "LAGUA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0546,
+    "predicted_class_conf": 0.9447
+  },
+  {
+    "crop_path": "LAGUA/LAGUA_018636.png",
+    "true_label": "LAGUA",
+    "predicted_label": "OTHERS",
+    "true_class_conf": 0.0063,
+    "predicted_class_conf": 0.9891
+  },
+  {
+    "crop_path": "LAGUA/LAGUA_008114.png",
+    "true_label": "LAGUA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.4506,
+    "predicted_class_conf": 0.5393
+  },
+  {
+    "crop_path": "LAGUA/LAGUA_011801.png",
+    "true_label": "LAGUA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.2979,
+    "predicted_class_conf": 0.674
+  },
+  {
+    "crop_path": "LAGUA/LAGUA_007773.png",
+    "true_label": "LAGUA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.3471,
+    "predicted_class_conf": 0.651
+  },
+  {
+    "crop_path": "LAGUA/LAGUA_013967.png",
+    "true_label": "LAGUA",
+    "predicted_label": "BRPEC",
+    "true_class_conf": 0.0,
+    "predicted_class_conf": 0.9973
+  },
+  {
+    "crop_path": "LAGUA/LAGUA_015584.png",
+    "true_label": "LAGUA",
+    "predicted_label": "BRPEC",
+    "true_class_conf": 0.4696,
+    "predicted_class_conf": 0.5138
+  },
+  {
+    "crop_path": "LAGUA/LAGUA_019328.png",
+    "true_label": "LAGUA",
+    "predicted_label": "OTHERS",
+    "true_class_conf": 0.0066,
+    "predicted_class_conf": 0.5173
+  },
+  {
+    "crop_path": "GREGC/GREGC_015162.png",
+    "true_label": "LARGE_WHITE_BIRDS",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0022,
+    "predicted_class_conf": 0.6268
+  },
+  {
+    "crop_path": "WHIBA/WHIBA_015346.png",
+    "true_label": "LARGE_WHITE_BIRDS",
+    "predicted_label": "BRPEC",
+    "true_class_conf": 0.0069,
+    "predicted_class_conf": 0.9921
+  },
+  {
+    "crop_path": "GREGA/GREGA_014939.png",
+    "true_label": "LARGE_WHITE_BIRDS",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0002,
+    "predicted_class_conf": 0.8887
+  },
+  {
+    "crop_path": "OTHRA/OTHRA_019586.png",
+    "true_label": "OTHERS",
+    "predicted_label": "BLSKA",
+    "true_class_conf": 0.0654,
+    "predicted_class_conf": 0.9346
+  },
+  {
+    "crop_path": "DCCOA/DCCOA_015070.png",
+    "true_label": "OTHERS",
+    "predicted_label": "GBHEC",
+    "true_class_conf": 0.0298,
+    "predicted_class_conf": 0.9701
+  },
+  {
+    "crop_path": "TRHEA/TRHEA_015094.png",
+    "true_label": "OTHERS",
+    "predicted_label": "LARGE_WHITE_BIRDS",
+    "true_class_conf": 0.0,
+    "predicted_class_conf": 1.0
+  },
+  {
+    "crop_path": "TRHEA/TRHEA_011809.png",
+    "true_label": "OTHERS",
+    "predicted_label": "LAGUA",
+    "true_class_conf": 0.0002,
+    "predicted_class_conf": 0.9998
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_016600.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0716,
+    "predicted_class_conf": 0.9281
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_000876.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0307,
+    "predicted_class_conf": 0.9693
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_005739.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.057,
+    "predicted_class_conf": 0.9349
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_010383.png",
+    "true_label": "ROTEA",
+    "predicted_label": "BRPEC",
+    "true_class_conf": 0.2516,
+    "predicted_class_conf": 0.7028
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_011306.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0076,
+    "predicted_class_conf": 0.9923
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_008666.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.2751,
+    "predicted_class_conf": 0.7247
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_011452.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0988,
+    "predicted_class_conf": 0.9012
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_015669.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.1303,
+    "predicted_class_conf": 0.8697
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_018468.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.2031,
+    "predicted_class_conf": 0.7969
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_000511.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.2814,
+    "predicted_class_conf": 0.7186
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_017636.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0115,
+    "predicted_class_conf": 0.9883
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_010214.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.4591,
+    "predicted_class_conf": 0.5409
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_006127.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.1226,
+    "predicted_class_conf": 0.8477
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_002523.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.3277,
+    "predicted_class_conf": 0.6723
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_018499.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.1063,
+    "predicted_class_conf": 0.8936
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_008403.png",
+    "true_label": "ROTEA",
+    "predicted_label": "BRPEC",
+    "true_class_conf": 0.1134,
+    "predicted_class_conf": 0.8476
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_015828.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.4339,
+    "predicted_class_conf": 0.5659
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_005583.png",
+    "true_label": "ROTEA",
+    "predicted_label": "LAGUA",
+    "true_class_conf": 0.0925,
+    "predicted_class_conf": 0.8089
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_009216.png",
+    "true_label": "ROTEA",
+    "predicted_label": "BRPEA",
+    "true_class_conf": 0.0535,
+    "predicted_class_conf": 0.9416
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_003772.png",
+    "true_label": "ROTEA",
+    "predicted_label": "BRPEC",
+    "true_class_conf": 0.176,
+    "predicted_class_conf": 0.8233
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_000862.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.1689,
+    "predicted_class_conf": 0.8311
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_001188.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0252,
+    "predicted_class_conf": 0.9748
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_008958.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.461,
+    "predicted_class_conf": 0.539
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_011386.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0302,
+    "predicted_class_conf": 0.9697
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_005088.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0401,
+    "predicted_class_conf": 0.9599
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_006946.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0575,
+    "predicted_class_conf": 0.9425
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_018431.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.008,
+    "predicted_class_conf": 0.992
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_010089.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0402,
+    "predicted_class_conf": 0.9598
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_016604.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0058,
+    "predicted_class_conf": 0.9942
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_018666.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.2881,
+    "predicted_class_conf": 0.6752
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_000105.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.016,
+    "predicted_class_conf": 0.984
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_006916.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0272,
+    "predicted_class_conf": 0.9728
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_007144.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0056,
+    "predicted_class_conf": 0.9944
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_000879.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0845,
+    "predicted_class_conf": 0.9155
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_016548.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0024,
+    "predicted_class_conf": 0.9976
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_009759.png",
+    "true_label": "ROTEA",
+    "predicted_label": "LAGUA",
+    "true_class_conf": 0.039,
+    "predicted_class_conf": 0.9405
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_018962.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.008,
+    "predicted_class_conf": 0.9919
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_018022.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.3486,
+    "predicted_class_conf": 0.6514
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_015461.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.2766,
+    "predicted_class_conf": 0.7232
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_017360.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.3469,
+    "predicted_class_conf": 0.6531
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_018736.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.1059,
+    "predicted_class_conf": 0.8941
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_005951.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0267,
+    "predicted_class_conf": 0.9732
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_011006.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0087,
+    "predicted_class_conf": 0.9913
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_017544.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0695,
+    "predicted_class_conf": 0.9297
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_018940.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0552,
+    "predicted_class_conf": 0.9447
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_009553.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.2767,
+    "predicted_class_conf": 0.7233
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_007472.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0888,
+    "predicted_class_conf": 0.9112
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_019216.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.1285,
+    "predicted_class_conf": 0.8715
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_019366.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0335,
+    "predicted_class_conf": 0.9664
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_016126.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0306,
+    "predicted_class_conf": 0.9694
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_000070.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.4092,
+    "predicted_class_conf": 0.5908
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_018125.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0004,
+    "predicted_class_conf": 0.9996
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_015628.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.072,
+    "predicted_class_conf": 0.927
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_000430.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.4533,
+    "predicted_class_conf": 0.5467
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_004971.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.2556,
+    "predicted_class_conf": 0.6527
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_018222.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.4196,
+    "predicted_class_conf": 0.4363
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_016858.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.413,
+    "predicted_class_conf": 0.587
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_005061.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.041,
+    "predicted_class_conf": 0.9589
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_005852.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0191,
+    "predicted_class_conf": 0.9809
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_007050.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0354,
+    "predicted_class_conf": 0.9645
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_016300.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.463,
+    "predicted_class_conf": 0.537
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_016437.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.1551,
+    "predicted_class_conf": 0.8449
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_019110.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.3588,
+    "predicted_class_conf": 0.516
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_019003.png",
+    "true_label": "ROTEA",
+    "predicted_label": "LAGUA",
+    "true_class_conf": 0.0,
+    "predicted_class_conf": 0.9984
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_004150.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0079,
+    "predicted_class_conf": 0.992
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_000538.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.4206,
+    "predicted_class_conf": 0.5794
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_008629.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0974,
+    "predicted_class_conf": 0.9026
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_016159.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0064,
+    "predicted_class_conf": 0.9934
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_011299.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.3121,
+    "predicted_class_conf": 0.687
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_019442.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0649,
+    "predicted_class_conf": 0.9351
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_010969.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.1744,
+    "predicted_class_conf": 0.8256
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_019562.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.2407,
+    "predicted_class_conf": 0.7589
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_018739.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.4843,
+    "predicted_class_conf": 0.5156
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_015452.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0513,
+    "predicted_class_conf": 0.9487
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_000328.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0068,
+    "predicted_class_conf": 0.9932
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_016592.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0121,
+    "predicted_class_conf": 0.9877
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_017895.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.4168,
+    "predicted_class_conf": 0.5832
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_010970.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0721,
+    "predicted_class_conf": 0.9279
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_015884.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0073,
+    "predicted_class_conf": 0.9927
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_017929.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.0032,
+    "predicted_class_conf": 0.9968
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_007674.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.2274,
+    "predicted_class_conf": 0.7722
+  },
+  {
+    "crop_path": "ROTEA/ROTEA_008421.png",
+    "true_label": "ROTEA",
+    "predicted_label": "SATEA",
+    "true_class_conf": 0.2887,
+    "predicted_class_conf": 0.698
+  },
+  {
+    "crop_path": "SATEA/SATEA_017577.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.151,
+    "predicted_class_conf": 0.849
+  },
+  {
+    "crop_path": "SATEA/SATEA_019095.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0023,
+    "predicted_class_conf": 0.8759
+  },
+  {
+    "crop_path": "SATEA/SATEA_010804.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.2782,
+    "predicted_class_conf": 0.7217
+  },
+  {
+    "crop_path": "SATEA/SATEA_017663.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.4035,
+    "predicted_class_conf": 0.5964
+  },
+  {
+    "crop_path": "SATEA/SATEA_005037.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.1484,
+    "predicted_class_conf": 0.8472
+  },
+  {
+    "crop_path": "SATEA/SATEA_016951.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0213,
+    "predicted_class_conf": 0.9787
+  },
+  {
+    "crop_path": "SATEA/SATEA_011285.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0455,
+    "predicted_class_conf": 0.9537
+  },
+  {
+    "crop_path": "SATEA/SATEA_019348.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.354,
+    "predicted_class_conf": 0.646
+  },
+  {
+    "crop_path": "SATEA/SATEA_011269.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0255,
+    "predicted_class_conf": 0.9186
+  },
+  {
+    "crop_path": "SATEA/SATEA_017646.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0011,
+    "predicted_class_conf": 0.9848
+  },
+  {
+    "crop_path": "SATEA/SATEA_010822.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.152,
+    "predicted_class_conf": 0.8479
+  },
+  {
+    "crop_path": "SATEA/SATEA_019093.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0867,
+    "predicted_class_conf": 0.9109
+  },
+  {
+    "crop_path": "SATEA/SATEA_011178.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0095,
+    "predicted_class_conf": 0.9905
+  },
+  {
+    "crop_path": "SATEA/SATEA_008524.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.1747,
+    "predicted_class_conf": 0.808
+  },
+  {
+    "crop_path": "SATEA/SATEA_016711.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0149,
+    "predicted_class_conf": 0.8486
+  },
+  {
+    "crop_path": "SATEA/SATEA_011620.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.3849,
+    "predicted_class_conf": 0.6151
+  },
+  {
+    "crop_path": "SATEA/SATEA_006869.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0016,
+    "predicted_class_conf": 0.9984
+  },
+  {
+    "crop_path": "SATEA/SATEA_010615.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.1568,
+    "predicted_class_conf": 0.8281
+  },
+  {
+    "crop_path": "SATEA/SATEA_011331.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0081,
+    "predicted_class_conf": 0.9919
+  },
+  {
+    "crop_path": "SATEA/SATEA_018347.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.1285,
+    "predicted_class_conf": 0.8715
+  },
+  {
+    "crop_path": "SATEA/SATEA_011172.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0079,
+    "predicted_class_conf": 0.9041
+  },
+  {
+    "crop_path": "SATEA/SATEA_004329.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0005,
+    "predicted_class_conf": 0.9995
+  },
+  {
+    "crop_path": "SATEA/SATEA_018053.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.3032,
+    "predicted_class_conf": 0.6967
+  },
+  {
+    "crop_path": "SATEA/SATEA_010808.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.452,
+    "predicted_class_conf": 0.5474
+  },
+  {
+    "crop_path": "SATEA/SATEA_007559.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0668,
+    "predicted_class_conf": 0.9331
+  },
+  {
+    "crop_path": "SATEA/SATEA_006205.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.2605,
+    "predicted_class_conf": 0.7391
+  },
+  {
+    "crop_path": "SATEA/SATEA_002319.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.4282,
+    "predicted_class_conf": 0.5718
+  },
+  {
+    "crop_path": "SATEA/SATEA_004270.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0522,
+    "predicted_class_conf": 0.9478
+  },
+  {
+    "crop_path": "SATEA/SATEA_005354.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0017,
+    "predicted_class_conf": 0.9983
+  },
+  {
+    "crop_path": "SATEA/SATEA_018241.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.005,
+    "predicted_class_conf": 0.995
+  },
+  {
+    "crop_path": "SATEA/SATEA_006852.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0001,
+    "predicted_class_conf": 0.9999
+  },
+  {
+    "crop_path": "SATEA/SATEA_019403.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0592,
+    "predicted_class_conf": 0.9408
+  },
+  {
+    "crop_path": "SATEA/SATEA_007582.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0538,
+    "predicted_class_conf": 0.9462
+  },
+  {
+    "crop_path": "SATEA/SATEA_018274.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0203,
+    "predicted_class_conf": 0.9797
+  },
+  {
+    "crop_path": "SATEA/SATEA_019091.png",
+    "true_label": "SATEA",
+    "predicted_label": "ROTEA",
+    "true_class_conf": 0.0043,
+    "predicted_class_conf": 0.9834
+  }
+]
